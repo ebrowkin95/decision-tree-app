@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+.excalidraw-box {
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+.excalidraw-box:hover {
+    filter: brightness(1.2);
+    transform: scale(1.02);
+}
+
+.tooltip {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 12px;
+    background: #fff;
+    color: #000;
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1.4;
+    font-family: 'Comic Neue', cursive;
+
+    max-width: 360px;
+    min-width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: normal;
+    z-index: 10;
+}
+
+/* Optional media query for large screens */
+@media (min-width: 768px) {
+    .tooltip {
+        max-width: 480px;
+    }
+}
