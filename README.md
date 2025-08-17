@@ -1,12 +1,52 @@
-# React + Vite
+# 🎯 Digital Media Selection Framework
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Bachelor Thesis Study - Georg-August-Universität Göttingen**
 
-Currently, two official plugins are available:
+A comprehensive decision tree application for evaluating digital media selection frameworks in educational contexts, featuring advanced participation control and GDPR-compliant data collection.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Quick Deployment Guide
 
-## Expanding the ESLint configuration
+### 1. **Supabase Setup**
+Execute this SQL in your Supabase SQL Editor:
+```sql
+-- Run tokens-table.sql to create the token system
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. **Netlify Deployment** 
+1. Fork this repository to your GitHub
+2. Connect to Netlify via Git integration
+3. Build settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+4. Set environment variables:
+   ```
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_anon_key
+   ```
+
+### 3. **Expected Result**
+- ✅ **2 functions deployed** (generate-token, submit-survey)
+- ✅ **Token system active** with rate limiting
+- ✅ **Voucher lottery ready**
+
+## 🎟️ Token-Based Participation System
+- UUID-based tokens for unique participation
+- 24-hour validity with automatic expiry
+- Rate limiting (1 token/5min per IP)
+- Prevents multiple participation
+
+## 📊 Survey Features
+- System Usability Scale (SUS) - 10 questions
+- 5 Likert-scale questions
+- 3 open-ended questions
+- Multi-language (DE/EN)
+
+## 🔐 GDPR Compliance
+- Age confirmation (18+)
+- Granular consent management
+- Separated data storage
+- University of Göttingen compliant
+
+---
+
+**🎓 Ready for Bachelor Thesis Study**
