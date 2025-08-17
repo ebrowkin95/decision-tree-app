@@ -100,6 +100,7 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
     const [currentSection, setCurrentSection] = useState('sus'); // sus, likert, open
     const [error, setError] = useState('');
     const [submitting, setSubmitting] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
 
     const texts = {
         de: {
@@ -273,38 +274,60 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Check if all open questions have some response (can be empty for optional questions)
-        // Get completion timing data
-        const timingData = timingService.getCompletionTimes();
-        const qualityCheck = timingService.getQualityIndicators(timingData);
+        // Prevent double submission
+        if (submitting || submitted) {
+            console.log('Submission already in progress or completed');
+            return;
+        }
         
-        console.log('Completion timing:', timingData);
-        console.log('Quality assessment:', qualityCheck);
-        
-        const completeData = {
-            participantData,
-            susResponses,
-            susScore: calculateSUSScore(),
-            likertResponses,
-            openResponses,
-            timingData: timingData,
-            qualityIndicators: qualityCheck,
-            completedAt: new Date().toISOString()
-        };
-
         try {
             setSubmitting(true);
+            
+            // Get completion timing data
+            const timingData = timingService.getCompletionTimes();
+            const qualityCheck = timingService.getQualityIndicators(timingData);
+            
+            console.log('Completion timing:', timingData);
+            console.log('Quality assessment:', qualityCheck);
+            
+            const completeData = {
+                participantData,
+                susResponses,
+                susScore: calculateSUSScore(),
+                likertResponses,
+                openResponses,
+                timingData: timingData,
+                qualityIndicators: qualityCheck,
+                completedAt: new Date().toISOString()
+            };
+
             const result = await submitStudyData(completeData);
             console.log('Data submitted successfully:', result);
+            
+            // Mark as submitted to prevent duplicates
+            setSubmitted(true);
             
             // Clear timing data after successful submission
             timingService.clearTiming();
             
             onComplete(completeData, result);
+            
         } catch (error) {
             console.error('Submission failed:', error);
             // Show error to user but don't block completion
             alert(`Submission failed: ${error.message}. Your data has been saved locally.`);
+            
+            const completeData = {
+                participantData,
+                susResponses,
+                susScore: calculateSUSScore(),
+                likertResponses,
+                openResponses,
+                timingData: timingService.getCompletionTimes(),
+                qualityIndicators: timingService.getQualityIndicators(timingService.getCompletionTimes()),
+                completedAt: new Date().toISOString()
+            };
+            
             onComplete(completeData, { success: false, error: error.message });
         } finally {
             setSubmitting(false);
@@ -551,8 +574,11 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
                         border: '3px solid #2E7D32'
                     }}
                     className="excalidraw-box"
+                    disabled={submitting || submitted}
                 >
-                    {t.submitButton}
+                    {submitting ? (lang === 'de' ? 'Wird übermittelt...' : 'Submitting...') : 
+                     submitted ? (lang === 'de' ? 'Übermittelt ✓' : 'Submitted ✓') : 
+                     t.submitButton}
                 </button>
             </div>
         </form>
