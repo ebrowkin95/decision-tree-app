@@ -34,6 +34,11 @@ CREATE TABLE research_data (
     likert_responses JSONB,
     open_responses JSONB,
     
+    -- Zeit-basierte Qualitätskontrolle
+    completion_time_total_minutes DECIMAL(8,2),
+    completion_time_framework_minutes DECIMAL(8,2),
+    completion_time_survey_minutes DECIMAL(8,2),
+    
     -- Timestamps
     completed_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT NOW()
@@ -85,6 +90,9 @@ SELECT
     sus_score,
     likert_responses,
     open_responses,
+    completion_time_total_minutes,
+    completion_time_framework_minutes,
+    completion_time_survey_minutes,
     completed_at,
     created_at
 FROM research_data

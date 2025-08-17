@@ -1,83 +1,27 @@
 import { createClient } from '@supabase/supabase-js';
-import { tokenService } from './tokenService.js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://yyzxwutjdeykrataqxmm.supabase.co';
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5enh3dXRqZGV5a3JhdGFxeG1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NDQ3NTYsImV4cCI6MjA3MTAyMDc1Nn0.dXuqWZ6-L_i8F2KNSO5CTTVr224Bl6NjIkwwfKuJYdU';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? '/.netlify/functions' 
-  : 'http://localhost:8888/.netlify/functions';
-
-// Generate Token nach Screener-Validierung
-export const generateParticipationToken = async (screenerData) => {
-  try {
-    return await tokenService.generateToken(screenerData);
-  } catch (error) {
-    console.error('Token generation failed:', error);
-    
-    // Fallback für Development oder wenn Functions nicht verfügbar sind
-    if (error.message.includes('404') || 
-        error.message.includes('Failed to fetch') || 
-        error.message.includes('Empty response') ||
-        error.message.includes('Invalid JSON') ||
-        process.env.NODE_ENV === 'development') {
-      console.log('Functions not available, using fallback token generation...');
-      
-      // Einfacher lokaler Token für Development
-      const fallbackToken = {
-        token: `dev_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        generatedAt: new Date().toISOString(),
-        isFallback: true
-      };
-      
-      // Token im localStorage speichern wie normaler Token
-      localStorage.setItem('survey_token', JSON.stringify(fallbackToken));
-      
-      return fallbackToken;
-    }
-    
-    throw error;
-  }
-};
-
-// Neue Token-basierte Submission
+// Direkte Supabase-Submission mit Zeit-basierter Qualitätskontrolle
 export const submitStudyData = async (data) => {
-  try {
-    // Token-basierte Submission verwenden
-    return await tokenService.submitSurveyWithToken(data);
-  } catch (error) {
-    console.error('Token-based submission failed:', error);
-    
-    // Fallback zu alter Methode für Development/Notfall oder Function Errors
-    if (process.env.NODE_ENV === 'development' || 
-        error.message.includes('404') || 
-        error.message.includes('Failed to fetch') ||
-        error.message.includes('Functions unavailable') ||
-        error.message.includes('Empty response') ||
-        error.message.includes('Invalid JSON')) {
-      console.log('Falling back to direct Supabase...');
-      return await submitStudyDataDirect(data);
-    }
-    
-    throw error;
-  }
-};
-
-// Legacy-Methode für Development-Fallback
-const submitStudyDataDirect = async (data) => {
   try {
     console.log('Attempting to submit data to Supabase directly...');
     
-    const { participantData, susResponses, susScore, likertResponses, openResponses, completedAt } = data;
+    const { participantData, susResponses, susScore, likertResponses, openResponses, completedAt, timingData } = data;
     const { email, ...profileData } = participantData;
 
     // Generate a unique participant ID
     const participantId = `p_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    // Store anonymous research data
+    // Calculate total completion time for quality control
+    const totalTimeMinutes = timingData ? timingData.totalMinutes : null;
+    const frameworkTimeMinutes = timingData ? timingData.frameworkMinutes : null;
+    const surveyTimeMinutes = timingData ? timingData.surveyMinutes : null;
+
+    // Store anonymous research data with timing
     const researchData = {
       participant_id: participantId,
       age_confirmation: profileData.ageConfirmation,
@@ -100,6 +44,9 @@ const submitStudyDataDirect = async (data) => {
       sus_score: susScore,
       likert_responses: likertResponses,
       open_responses: openResponses,
+      completion_time_total_minutes: totalTimeMinutes,
+      completion_time_framework_minutes: frameworkTimeMinutes,
+      completion_time_survey_minutes: surveyTimeMinutes,
       completed_at: completedAt || new Date().toISOString(),
     };
 
@@ -137,18 +84,22 @@ const submitStudyDataDirect = async (data) => {
       }
     }
 
-    return { success: true, participantId, method: 'direct_supabase' };
+    return { 
+      success: true, 
+      participantId, 
+      method: 'direct_supabase',
+      timingData: {
+        totalMinutes: totalTimeMinutes,
+        frameworkMinutes: frameworkTimeMinutes,
+        surveyMinutes: surveyTimeMinutes
+      }
+    };
 
   } catch (error) {
     console.error('Direct Supabase submission failed:', error);
     throw error;
   }
 };
-
-// Token-Status Helpers
-export const hasValidToken = () => tokenService.hasValidToken();
-export const getTokenStatus = () => tokenService.getTokenStatus();
-export const clearToken = () => tokenService.clearToken();
 
 // Local storage fallback for development/offline usage
 export const saveDataLocally = (data) => {

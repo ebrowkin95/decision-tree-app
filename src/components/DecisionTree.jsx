@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { treeData } from '../treeData';
+import { timingService } from '../services/timingService.js';
 import '../styles/excalidraw.css';  // Excalidraw-Style und Font
 
 const buttonStyle = {
@@ -121,6 +122,11 @@ export function DecisionTree({ onComplete, lang: propLang }) {
     const [selection, setSelection] = useState({});
     const [lang, setLang] = useState(propLang || 'de');
     const data = treeData[lang];
+
+    // Start framework timing when component mounts
+    useEffect(() => {
+        timingService.startFramework();
+    }, []);
 
     // Nur Optionen, die im Kontext Sinn machen
     const getProcessOptions = () => data.processes[selection.dimension] || [];
@@ -332,7 +338,10 @@ export function DecisionTree({ onComplete, lang: propLang }) {
                                         color: '#fff',
                                         border: '3px solid #2E7D32'
                                     }} 
-                                    onClick={onComplete}
+                                    onClick={() => {
+                                        timingService.startSurvey();
+                                        onComplete();
+                                    }}
                                 >
                                     {lang === 'de' ? 'Framework abschließen' : 'Complete Framework'}
                                 </button>

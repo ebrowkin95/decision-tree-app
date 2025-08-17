@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { generateParticipationToken, hasValidToken, getTokenStatus } from '../services/dataService.js';
+import { timingService } from '../services/timingService.js';
 
 const formStyle = {
     minHeight: '100vh',
@@ -235,11 +235,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             },
             
             submit: 'Framework starten',
-            submitting: 'Wird verarbeitet...',
-            tokenGenerating: 'Token wird generiert...',
-            tokenError: 'Fehler beim Generieren des Teilnahme-Tokens. Bitte versuchen Sie es später erneut.',
-            rateLimitError: 'Sie haben bereits kürzlich einen Token angefordert. Bitte warten Sie 5 Minuten.',
-            tokenValid: 'Teilnahme-Token gültig für:'
+            submitting: 'Wird verarbeitet...'
         },
         
         en: {
@@ -359,11 +355,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             },
             
             submit: 'Start Framework',
-            submitting: 'Processing...',
-            tokenGenerating: 'Generating token...',
-            tokenError: 'Error generating participation token. Please try again later.',
-            rateLimitError: 'You have recently requested a token. Please wait 5 minutes.',
-            tokenValid: 'Participation token valid for:'
+            submitting: 'Processing...'
         }
     };
 
@@ -392,15 +384,10 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
         return Object.keys(newErrors).length === 0;
     };
 
-    const [tokenGenerating, setTokenGenerating] = useState(false);
-    const [tokenStatus, setTokenStatus] = useState(null);
-
-    // Check for existing token on mount
+    // Start timing when component mounts
     useEffect(() => {
-        if (hasValidToken()) {
-            const status = getTokenStatus();
-            setTokenStatus(status);
-        }
+        timingService.startStudy();
+        timingService.restoreTiming();
     }, []);
 
     const handleSubmit = async (e) => {
@@ -410,47 +397,8 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             return;
         }
 
-        // If we already have a valid token, proceed directly
-        if (hasValidToken()) {
-            onComplete(formData);
-            return;
-        }
-
-        try {
-            setTokenGenerating(true);
-            
-            // Generate token with screener data
-            const screenerData = {
-                ageConfirmation: formData.ageConfirmation,
-                country: formData.country,
-                role: formData.role
-            };
-
-            const tokenData = await generateParticipationToken(screenerData);
-            
-            setTokenStatus({
-                valid: true,
-                timeLeft: { hours: 24, minutes: 0 },
-                timeLeftText: '24h 0m'
-            });
-
-            // Proceed with the form completion
-            onComplete(formData);
-
-        } catch (error) {
-            console.error('Token generation failed:', error);
-            
-            // Show user-friendly error
-            let errorMessage = t.tokenError || 'Fehler beim Generieren des Teilnahme-Tokens. Bitte versuchen Sie es später erneut.';
-            
-            if (error.message.includes('Rate limit')) {
-                errorMessage = t.rateLimitError || 'Sie haben bereits kürzlich einen Token angefordert. Bitte warten Sie 5 Minuten.';
-            }
-            
-            setErrors({ token: errorMessage });
-        } finally {
-            setTokenGenerating(false);
-        }
+        // Proceed with the form completion
+        onComplete(formData);
     };
 
     const handleInputChange = (field, value) => {
@@ -796,23 +744,6 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                     </div>
 
                     {errors.consent && <div style={errorStyle}>{errors.consent}</div>}
-                    {errors.token && <div style={errorStyle}>{errors.token}</div>}
-
-                    {/* Token Status Display */}
-                    {tokenStatus && tokenStatus.valid && (
-                        <div style={{
-                            background: '#4CAF50',
-                            color: '#fff',
-                            padding: '12px 16px',
-                            borderRadius: '8px',
-                            marginTop: '20px',
-                            textAlign: 'center',
-                            fontFamily: 'Arial, sans-serif',
-                            border: '2px solid #2E7D32'
-                        }}>
-                            ✓ {t.tokenValid} {tokenStatus.timeLeftText}
-                        </div>
-                    )}
 
                     <button
                         type="submit"
@@ -823,10 +754,8 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                             fontSize: '1.3rem'
                         }}
                         className="excalidraw-box"
-                        disabled={tokenGenerating}
                     >
-                        {tokenGenerating ? t.tokenGenerating : 
-                         tokenStatus && tokenStatus.valid ? t.submit : t.submit}
+                        {t.submit}
                     </button>
                 </form>
             </div>

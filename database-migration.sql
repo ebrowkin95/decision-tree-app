@@ -19,6 +19,11 @@ ALTER TABLE research_data ADD COLUMN IF NOT EXISTS consent_quotes BOOLEAN;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS likert_responses JSONB;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS open_responses JSONB;
 
+-- 5. Zeit-basierte Qualitätskontrolle Spalten hinzufügen
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_total_minutes DECIMAL(8,2);
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_framework_minutes DECIMAL(8,2);
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_survey_minutes DECIMAL(8,2);
+
 -- 4. interview_contact Spalte ist bereits vorhanden, prüfen
 -- ALTER TABLE research_data ADD COLUMN IF NOT EXISTS interview_contact TEXT;
 
