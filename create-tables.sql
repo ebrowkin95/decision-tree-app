@@ -35,9 +35,9 @@ CREATE TABLE research_data (
     open_responses JSONB,
     
     -- Zeit-basierte Qualitätskontrolle
-    completion_time_total_minutes DECIMAL(8,2),
-    completion_time_framework_minutes DECIMAL(8,2),
-    completion_time_survey_minutes DECIMAL(8,2),
+    completion_time_total_minutes DECIMAL(10,2),
+    completion_time_framework_minutes DECIMAL(10,2),
+    completion_time_survey_minutes DECIMAL(10,2),
     
     -- Timestamps
     completed_at TIMESTAMPTZ,

@@ -17,9 +17,9 @@ export const submitStudyData = async (data) => {
     const participantId = `p_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     // Calculate total completion time for quality control
-    const totalTimeMinutes = timingData ? timingData.totalMinutes : null;
-    const frameworkTimeMinutes = timingData ? timingData.frameworkMinutes : null;
-    const surveyTimeMinutes = timingData ? timingData.surveyMinutes : null;
+    const totalTimeMinutes = timingData && timingData.totalMinutes ? Math.min(timingData.totalMinutes, 99999.99) : null;
+    const frameworkTimeMinutes = timingData && timingData.frameworkMinutes ? Math.min(timingData.frameworkMinutes, 99999.99) : null;
+    const surveyTimeMinutes = timingData && timingData.surveyMinutes ? Math.min(timingData.surveyMinutes, 99999.99) : null;
 
     // Store anonymous research data with timing
     const researchData = {

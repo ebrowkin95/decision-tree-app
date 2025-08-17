@@ -41,9 +41,14 @@ class TimingService {
       return null;
     }
 
-    const totalMinutes = (endTime - startTime) / (1000 * 60);
-    const frameworkMinutes = frameworkStartTime ? (surveyStartTime || endTime - frameworkStartTime) / (1000 * 60) : null;
-    const surveyMinutes = surveyStartTime ? (endTime - surveyStartTime) / (1000 * 60) : null;
+    let totalMinutes = (endTime - startTime) / (1000 * 60);
+    let frameworkMinutes = frameworkStartTime ? (surveyStartTime || endTime - frameworkStartTime) / (1000 * 60) : null;
+    let surveyMinutes = surveyStartTime ? (endTime - surveyStartTime) / (1000 * 60) : null;
+
+    // Cap times to reasonable maximums to prevent database overflow
+    totalMinutes = Math.min(totalMinutes, 999.99); // Max ~16 hours
+    frameworkMinutes = frameworkMinutes ? Math.min(frameworkMinutes, 999.99) : null;
+    surveyMinutes = surveyMinutes ? Math.min(surveyMinutes, 999.99) : null;
 
     const timingData = {
       totalMinutes: Math.round(totalMinutes * 100) / 100, // Round to 2 decimals
