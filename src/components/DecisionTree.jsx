@@ -116,10 +116,10 @@ function InfoButton({ label, info, onClick }) {
 }
 
 
-export function DecisionTree() {
+export function DecisionTree({ onComplete, lang: propLang }) {
     const [step, setStep] = useState('dimension');
     const [selection, setSelection] = useState({});
-    const [lang, setLang] = useState('de');
+    const [lang, setLang] = useState(propLang || 'de');
     const data = treeData[lang];
 
     // Nur Optionen, die im Kontext Sinn machen
@@ -152,14 +152,30 @@ export function DecisionTree() {
             minHeight: '100vh',
             width: '100vw',
             background: '#000',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Permanent Marker, cursive'
+            fontFamily: 'Permanent Marker, cursive',
+            padding: '20px'
         }}>
             <div style={switchStyle} onClick={() => setLang(l => l === 'de' ? 'en' : 'de')}>
                 {lang === 'de' ? 'EN' : 'DE'}
             </div>
+            <h1 style={{
+                color: '#fff',
+                fontFamily: 'Permanent Marker, cursive',
+                fontSize: '2.8rem',
+                textAlign: 'center',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                margin: '40px 0 60px 0',
+                position: 'relative',
+                top: '0'
+            }}>
+                {lang === 'de' ? 'Digitales Medienauswahl-Framework' : 'Digital Media Selection Framework'}
+            </h1>
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                minHeight: 'calc(100vh - 200px)'
+            }}>
             <div style={{
                 background: '#181818',
                 borderRadius: '20px',
@@ -231,31 +247,100 @@ export function DecisionTree() {
                 {step === 'result' && (
                     <div>
                         <h2 style={{
-                            color: '#fff',
+                            color: '#4CAF50',
                             fontFamily: 'Permanent Marker, cursive',
-                            fontSize: '1.3rem'
+                            fontSize: '1.8rem',
+                            textAlign: 'center',
+                            marginBottom: '24px',
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
                         }}>
-                            {lang === 'de' ? 'Empfehlungen' : 'Recommendations'}
+                            ✨ {lang === 'de' ? 'Empfehlungen' : 'Recommendations'} ✨
                         </h2>
-                        <ul style={{ listStyle: 'none', padding: 0 }}>
-                            {getRecommendations().map((r, i) => (
-                                <li key={i} style={{
-                                    margin: '8px 0',
-                                    background: '#fff',
-                                    color: '#222',
-                                    borderRadius: '7px',
-                                    padding: '10px 18px',
-                                    fontSize: '1.1em',
-                                    fontFamily: 'Permanent Marker, cursive',
-                                    border: '1.5px solid #222'
-                                }}>{r}</li>
-                            ))}
-                        </ul>
-                        <button style={buttonStyle} onClick={handleRestart}>
-                            {lang === 'de' ? 'Neu starten' : 'Restart'}
-                        </button>
+                        <div style={{
+                            background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
+                            borderRadius: '16px',
+                            padding: '24px',
+                            marginBottom: '24px',
+                            border: '3px solid #2E7D32',
+                            boxShadow: '0 8px 24px rgba(76, 175, 80, 0.3)',
+                            position: 'relative'
+                        }}>
+                            <div style={{
+                                position: 'absolute',
+                                top: '-12px',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                background: '#FFD700',
+                                color: '#000',
+                                padding: '8px 16px',
+                                borderRadius: '20px',
+                                fontSize: '0.9em',
+                                fontWeight: 'bold',
+                                border: '2px solid #FFA000',
+                                boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+                            }}>
+                                {lang === 'de' ? 'IHRE ERGEBNISSE' : 'YOUR RESULTS'}
+                            </div>
+                            <ul style={{ listStyle: 'none', padding: 0, marginTop: '12px' }}>
+                                {getRecommendations().map((r, i) => (
+                                    <li key={i} style={{
+                                        margin: '12px 0',
+                                        background: '#fff',
+                                        color: '#1a1a1a',
+                                        borderRadius: '12px',
+                                        padding: '16px 20px',
+                                        fontSize: '1.15em',
+                                        fontFamily: 'Permanent Marker, cursive',
+                                        border: '2px solid #2E7D32',
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                                        position: 'relative',
+                                        paddingLeft: '50px',
+                                        fontWeight: 'bold'
+                                    }}>
+                                        <span style={{
+                                            position: 'absolute',
+                                            left: '16px',
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            background: '#4CAF50',
+                                            color: '#fff',
+                                            borderRadius: '50%',
+                                            width: '24px',
+                                            height: '24px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            fontSize: '0.8em',
+                                            fontWeight: 'bold'
+                                        }}>
+                                            {i + 1}
+                                        </span>
+                                        {r}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div style={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+                            <button style={buttonStyle} onClick={handleRestart}>
+                                {lang === 'de' ? 'Neu starten' : 'Restart'}
+                            </button>
+                            {onComplete && (
+                                <button 
+                                    style={{
+                                        ...buttonStyle,
+                                        backgroundColor: '#4CAF50',
+                                        color: '#fff',
+                                        border: '3px solid #2E7D32'
+                                    }} 
+                                    onClick={onComplete}
+                                >
+                                    {lang === 'de' ? 'Framework abschließen' : 'Complete Framework'}
+                                </button>
+                            )}
+                        </div>
                     </div>
                 )}
+            </div>
             </div>
         </div>
     );

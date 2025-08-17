@@ -1,6 +1,6 @@
 export const treeData = {
     de: {
-        title: 'Digitales Medienauswahl-Framework',
+        title: 'Wissensdimension auswählen',
         dimensions: [
             {key: 'faktisch', label: 'Faktisches Wissen', info: 'Grundlegende Fakten, isolierte Informationen, Terminologie und spezifische Details. Nach Anderson & Krathwohl (2001) das Wissen von Einzelheiten und Elementen.'},
             {key: 'konzeptionell', label: 'Konzeptionelles Wissen', info: 'Wissen über Zusammenhänge zwischen grundlegenden Elementen in größeren Strukturen. Umfasst Kategorien, Klassifikationen, Prinzipien und Theorien (Anderson & Krathwohl, 2001).'},
@@ -259,7 +259,7 @@ export const treeData = {
         }
     },
     en: {
-        title: 'Digital Media Selection Framework',
+        title: 'Select Knowledge Dimension',
         dimensions: [
             {key: 'faktisch', label: 'Factual Knowledge', info: 'Basic facts, isolated information, terminology and specific details. According to Anderson & Krathwohl (2001), knowledge of individual details and elements.'},
             {key: 'konzeptionell', label: 'Conceptual Knowledge', info: 'Knowledge about interrelationships among basic elements within a larger structure. Includes categories, classifications, principles and theories (Anderson & Krathwohl, 2001).'},
