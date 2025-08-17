@@ -13,8 +13,10 @@ export const submitStudyData = async (data) => {
     const { participantData, susResponses, susScore, likertResponses, openResponses, completedAt, timingData } = data;
     const { email, ...profileData } = participantData;
 
-    // Generate a unique participant ID
-    const participantId = `p_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Generate a unique participant ID with session info to prevent duplicates
+    const sessionId = sessionStorage.getItem('session_id') || `s_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    sessionStorage.setItem('session_id', sessionId);
+    const participantId = `p_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${sessionId.substr(-6)}`;
 
     // Calculate total completion time for quality control
     const totalTimeMinutes = timingData && timingData.totalMinutes ? Math.min(timingData.totalMinutes, 99999.99) : null;

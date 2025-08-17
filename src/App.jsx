@@ -3,7 +3,7 @@ import { DecisionTree } from './components/DecisionTree';
 import { PreStudyForm } from './components/PreStudyForm';
 import { SUSQuestionnaire, ThankYouScreen } from './components/SUSQuestionnaire';
 import { IntroScreen } from './components/IntroScreen';
-import { submitStudyData, saveDataLocally } from './services/dataService';
+// Data submission is now handled in SUSQuestionnaire component
 
 export default function App() {
     const [currentStep, setCurrentStep] = useState('intro'); // intro -> preStudy -> framework -> sus -> complete
@@ -28,23 +28,15 @@ export default function App() {
         setCurrentStep('sus');
     };
 
-    const handleSUSComplete = async (data) => {
+    const handleSUSComplete = async (data, submissionResult) => {
         setCompleteData(data);
         
-        try {
-            // Try to submit to server first
-            const result = await submitStudyData(data);
-            console.log('Data submitted successfully:', result);
-        } catch (error) {
-            console.warn('Server submission failed, saving locally:', error);
-            // Fallback to local storage
-            try {
-                const localResult = saveDataLocally(data);
-                console.log('Data saved locally:', localResult);
-            } catch (localError) {
-                console.error('Failed to save data locally:', localError);
-                // Could show error message to user here
-            }
+        // Data is already submitted in SUSQuestionnaire, just handle the result
+        if (submissionResult && !submissionResult.success) {
+            console.warn('Server submission failed, data saved locally');
+            // Could show error message to user here if needed
+        } else {
+            console.log('Data submitted successfully via SUSQuestionnaire');
         }
         
         setCurrentStep('complete');
