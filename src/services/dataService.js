@@ -34,6 +34,8 @@ export const submitStudyData = async (data) => {
       teaching_experience: profileData.teachingExperience,
       subjects: profileData.subjects,
       digital_experience: profileData.digitalExperience,
+      planning_frequency: profileData.planningFrequency,
+      traffic_source: profileData.trafficSource,
       consent_participation: profileData.consentParticipation,
       consent_data_processing: profileData.consentDataProcessing,
       consent_contact: profileData.consentContact,

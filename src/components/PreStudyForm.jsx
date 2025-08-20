@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { timingService } from '../services/timingService.js';
+import { getTrafficSource, storeTrafficSource, getStoredTrafficSource } from '../utils/urlUtils.js';
 
 const formStyle = {
     minHeight: '100vh',
@@ -113,6 +114,9 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
         subjects: '',
         digitalExperience: '',
         planningFrequency: '',
+        
+        // Traffic source tracking
+        trafficSource: '',
         
         // Contact (optional)
         email: '',
@@ -419,10 +423,29 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
         return Object.keys(newErrors).length === 0;
     };
 
-    // Start timing when component mounts
+    // Start timing and capture traffic source when component mounts
     useEffect(() => {
         timingService.startStudy();
         timingService.restoreTiming();
+        
+        // Capture traffic source on first load
+        let trafficData = getStoredTrafficSource();
+        
+        if (!trafficData) {
+            // First visit - capture traffic source
+            trafficData = getTrafficSource();
+            storeTrafficSource(trafficData);
+        }
+        
+        // Set traffic source in form data
+        setFormData(prev => ({
+            ...prev,
+            trafficSource: trafficData.source
+        }));
+        
+        // Log for debugging (remove in production)
+        console.log('Traffic source captured:', trafficData.source);
+        
     }, []);
 
     const handleSubmit = async (e) => {
