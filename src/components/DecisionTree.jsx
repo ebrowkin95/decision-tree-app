@@ -4,27 +4,30 @@ import { timingService } from '../services/timingService.js';
 import '../styles/excalidraw.css';  // Excalidraw-Style und Font
 
 const buttonStyle = {
-    margin: '16px 0',
-    padding: '18px 32px',
-    minWidth: 320,
+    margin: 'clamp(12px, 2.5vw, 16px) 0',
+    padding: 'clamp(15px, 3vw, 18px) clamp(24px, 5vw, 32px)',
+    minWidth: 'clamp(280px, 50vw, 320px)',
+    maxWidth: '100%',
     backgroundColor: '#fff',
     color: '#000',
-    border: '3px solid #000',
-    borderRadius: '12px',
+    border: 'clamp(2px, 0.5vw, 3px) solid #000',
+    borderRadius: 'clamp(8px, 2vw, 12px)',
     fontFamily: 'Permanent Marker, cursive',
-    boxShadow: '4px 4px #111',
+    boxShadow: 'clamp(2px, 0.8vw, 4px) clamp(2px, 0.8vw, 4px) #111',
     cursor: 'pointer',
-    fontSize: '1.15rem',
+    fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
     position: 'relative',
     transition: 'filter 0.2s, transform 0.2s',
+    minHeight: '44px',
+    boxSizing: 'border-box'
 };
 
 const switchStyle = {
     position: 'fixed',
-    top: '16px',
-    right: '32px',
+    top: 'clamp(12px, 3vw, 16px)',
+    right: 'clamp(16px, 5vw, 32px)',
     fontFamily: 'Permanent Marker, cursive',
-    fontSize: '18px',
+    fontSize: 'clamp(16px, 3.5vw, 18px)',
     cursor: 'pointer',
     zIndex: 1000,
     color: '#fff'
@@ -32,10 +35,24 @@ const switchStyle = {
 
 
 function SpeechBubble({ children }) {
+    const [isMobile, setIsMobile] = useState(false);
+    
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+    
+    if (isMobile) return null; // Hide speech bubbles on mobile to prevent overflow
+    
     return (
         <div style={{
             position: 'absolute',
-            left: 'calc(100% + 24px)',   // <- Jetzt erscheint die Blase rechts außerhalb vom Button
+            left: 'calc(100% + clamp(15px, 4vw, 24px))',
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 2,
@@ -45,13 +62,14 @@ function SpeechBubble({ children }) {
                 position: 'relative',
                 background: '#fff',
                 color: '#1a1a1a',
-                border: '3px solid #222',
-                borderRadius: '16px',
+                border: 'clamp(2px, 0.5vw, 3px) solid #222',
+                borderRadius: 'clamp(12px, 3vw, 16px)',
                 fontFamily: 'Permanent Marker, cursive',
-                fontSize: '1.1em',
+                fontSize: 'clamp(1rem, 2.2vw, 1.1em)',
                 boxShadow: '3px 3px 12px #0002',
-                padding: '16px 20px',
-                minWidth: 230,
+                padding: 'clamp(12px, 3vw, 16px) clamp(15px, 3.5vw, 20px)',
+                minWidth: 'clamp(200px, 30vw, 230px)',
+                maxWidth: '250px',
                 textAlign: 'left',
                 pointerEvents: 'auto'
             }}>
@@ -87,7 +105,7 @@ function InfoButton({ label, info, onClick }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'flex-start',
-                paddingRight: 45 // Platz für Icon
+                paddingRight: 'clamp(40px, 8vw, 45px)' // Platz für Icon
             }}
             onClick={onClick}
         >
@@ -159,7 +177,8 @@ export function DecisionTree({ onComplete, lang: propLang }) {
             width: '100vw',
             background: '#000',
             fontFamily: 'Permanent Marker, cursive',
-            padding: '20px'
+            padding: 'clamp(10px, 4vw, 20px)',
+            boxSizing: 'border-box'
         }}>
             <div style={switchStyle} onClick={() => setLang(l => l === 'de' ? 'en' : 'de')}>
                 {lang === 'de' ? 'EN' : 'DE'}
@@ -167,12 +186,13 @@ export function DecisionTree({ onComplete, lang: propLang }) {
             <h1 style={{
                 color: '#fff',
                 fontFamily: 'Permanent Marker, cursive',
-                fontSize: '2.8rem',
+                fontSize: 'clamp(1.8rem, 5.5vw, 2.8rem)',
                 textAlign: 'center',
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                margin: '40px 0 60px 0',
+                margin: 'clamp(20px, 5vw, 40px) 0 clamp(30px, 7vw, 60px) 0',
                 position: 'relative',
-                top: '0'
+                top: '0',
+                lineHeight: '1.1'
             }}>
                 {lang === 'de' ? 'Digitales Medienauswahl-Framework' : 'Digital Media Selection Framework'}
             </h1>
@@ -180,25 +200,30 @@ export function DecisionTree({ onComplete, lang: propLang }) {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'flex-start',
-                minHeight: 'calc(100vh - 200px)'
+                minHeight: 'calc(100vh - clamp(150px, 25vw, 200px))'
             }}>
             <div style={{
                 background: '#181818',
-                borderRadius: '20px',
+                borderRadius: 'clamp(12px, 3vw, 20px)',
                 boxShadow: '0 6px 36px #000c',
-                padding: '60px 42px 44px 42px',
+                padding: 'clamp(40px, 8vw, 60px) clamp(20px, 5vw, 42px) clamp(30px, 6vw, 44px) clamp(20px, 5vw, 42px)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                minWidth: 400
+                minWidth: 'clamp(300px, 60vw, 400px)',
+                maxWidth: '100%',
+                width: '100%',
+                boxSizing: 'border-box'
             }}>
                 {step === 'dimension' && (
                     <>
                         <h2 style={{
                             color: '#fff',
                             fontFamily: 'Permanent Marker, cursive',
-                            fontSize: '2.2rem',
-                            marginBottom: '32px'
+                            fontSize: 'clamp(1.5rem, 4vw, 2.2rem)',
+                            marginBottom: 'clamp(20px, 5vw, 32px)',
+                            textAlign: 'center',
+                            lineHeight: '1.2'
                         }}>{data.title}</h2>
                         {data.dimensions.map(opt => (
                             <InfoButton
@@ -215,8 +240,10 @@ export function DecisionTree({ onComplete, lang: propLang }) {
                         <h2 style={{
                             color: '#fff',
                             fontFamily: 'Permanent Marker, cursive',
-                            fontSize: '1.4rem',
-                            marginBottom: '24px'
+                            fontSize: 'clamp(1.2rem, 3vw, 1.4rem)',
+                            marginBottom: 'clamp(18px, 4vw, 24px)',
+                            textAlign: 'center',
+                            lineHeight: '1.2'
                         }}>
                             {lang === 'de' ? 'Kognitive Anforderung wählen' : 'Select Cognitive Level'}
                         </h2>
@@ -235,8 +262,10 @@ export function DecisionTree({ onComplete, lang: propLang }) {
                         <h2 style={{
                             color: '#fff',
                             fontFamily: 'Permanent Marker, cursive',
-                            fontSize: '1.3rem',
-                            marginBottom: '24px'
+                            fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)',
+                            marginBottom: 'clamp(18px, 4vw, 24px)',
+                            textAlign: 'center',
+                            lineHeight: '1.2'
                         }}>
                             {lang === 'de' ? 'Medientyp wählen' : 'Select Media Type'}
                         </h2>
@@ -255,17 +284,18 @@ export function DecisionTree({ onComplete, lang: propLang }) {
                         <h2 style={{
                             color: '#4CAF50',
                             fontFamily: 'Permanent Marker, cursive',
-                            fontSize: '1.8rem',
+                            fontSize: 'clamp(1.4rem, 3.5vw, 1.8rem)',
                             textAlign: 'center',
-                            marginBottom: '24px',
-                            textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                            marginBottom: 'clamp(18px, 4vw, 24px)',
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                            lineHeight: '1.2'
                         }}>
                             ✨ {lang === 'de' ? 'Empfehlungen' : 'Recommendations'} ✨
                         </h2>
                         <div style={{
                             background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
-                            borderRadius: '16px',
-                            padding: '24px',
+                            borderRadius: 'clamp(12px, 3vw, 16px)',
+                            padding: 'clamp(18px, 4vw, 24px)',
                             marginBottom: '24px',
                             border: '3px solid #2E7D32',
                             boxShadow: '0 8px 24px rgba(76, 175, 80, 0.3)',

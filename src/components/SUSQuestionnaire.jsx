@@ -7,7 +7,7 @@ const formStyle = {
     width: '100vw',
     background: '#000',
     fontFamily: 'Permanent Marker, cursive',
-    padding: '20px',
+    padding: 'clamp(10px, 4vw, 20px)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start'
@@ -15,26 +15,27 @@ const formStyle = {
 
 const containerStyle = {
     background: '#181818',
-    borderRadius: '20px',
+    borderRadius: 'clamp(12px, 3vw, 20px)',
     boxShadow: '0 6px 36px #000c',
-    padding: '40px',
+    padding: 'clamp(20px, 5vw, 40px)',
     maxWidth: '800px',
     width: '100%',
-    marginTop: '40px'
+    marginTop: 'clamp(20px, 5vw, 40px)',
+    margin: 'clamp(20px, 5vw, 40px) auto 0'
 };
 
 const questionStyle = {
-    margin: '24px 0',
-    padding: '20px',
+    margin: 'clamp(18px, 4vw, 24px) 0',
+    padding: 'clamp(15px, 3.5vw, 20px)',
     background: '#222',
-    borderRadius: '12px',
-    border: '2px solid #333'
+    borderRadius: 'clamp(8px, 2vw, 12px)',
+    border: 'clamp(1px, 0.3vw, 2px) solid #333'
 };
 
 const questionTextStyle = {
     color: '#fff',
-    fontSize: '1.1rem',
-    marginBottom: '16px',
+    fontSize: 'clamp(1rem, 2.3vw, 1.1rem)',
+    marginBottom: 'clamp(12px, 3vw, 16px)',
     fontFamily: 'Arial, sans-serif',
     lineHeight: '1.4'
 };
@@ -43,42 +44,49 @@ const scaleContainerStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: '8px'
+    gap: 'clamp(4px, 1.5vw, 8px)',
+    flexWrap: 'wrap'
 };
 
 const scaleLabelStyle = {
     color: '#ccc',
-    fontSize: '0.9rem',
+    fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)',
     fontFamily: 'Arial, sans-serif',
     textAlign: 'center',
-    minWidth: '80px'
+    minWidth: 'clamp(60px, 12vw, 80px)',
+    lineHeight: '1.2'
 };
 
 const radioContainerStyle = {
     display: 'flex',
-    gap: '20px',
+    gap: 'clamp(12px, 3vw, 20px)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexWrap: 'wrap'
 };
 
 const radioInputStyle = {
-    width: '20px',
-    height: '20px',
-    cursor: 'pointer'
+    width: 'clamp(18px, 4vw, 22px)',
+    height: 'clamp(18px, 4vw, 22px)',
+    cursor: 'pointer',
+    minWidth: '18px',
+    minHeight: '18px'
 };
 
 const buttonStyle = {
-    margin: '30px 0',
-    padding: '18px 32px',
+    margin: 'clamp(20px, 4vw, 30px) 0',
+    padding: 'clamp(15px, 3vw, 18px) clamp(24px, 5vw, 32px)',
     backgroundColor: '#fff',
     color: '#000',
-    border: '3px solid #000',
-    borderRadius: '12px',
+    border: 'clamp(2px, 0.5vw, 3px) solid #000',
+    borderRadius: 'clamp(8px, 2vw, 12px)',
     fontFamily: 'Permanent Marker, cursive',
-    boxShadow: '4px 4px #111',
+    boxShadow: 'clamp(2px, 0.8vw, 4px) clamp(2px, 0.8vw, 4px) #111',
     cursor: 'pointer',
-    fontSize: '1.15rem',
-    transition: 'filter 0.2s, transform 0.2s'
+    fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
+    transition: 'filter 0.2s, transform 0.2s',
+    width: '100%',
+    minHeight: '44px'
 };
 
 const errorStyle = {
@@ -338,10 +346,11 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
         <form onSubmit={(e) => { e.preventDefault(); handleSusNext(); }}>
             <h1 style={{
                 color: '#fff',
-                fontSize: '2.2rem',
+                fontSize: 'clamp(1.6rem, 4.5vw, 2.2rem)',
                 textAlign: 'center',
-                marginBottom: '10px',
-                fontFamily: 'Permanent Marker, cursive'
+                marginBottom: 'clamp(8px, 2vw, 10px)',
+                fontFamily: 'Permanent Marker, cursive',
+                lineHeight: '1.2'
             }}>
                 {t.susTitle}
             </h1>
@@ -424,10 +433,11 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
         <form onSubmit={(e) => { e.preventDefault(); handleLikertNext(); }}>
             <h1 style={{
                 color: '#fff',
-                fontSize: '2.2rem',
+                fontSize: 'clamp(1.6rem, 4.5vw, 2.2rem)',
                 textAlign: 'center',
-                marginBottom: '10px',
-                fontFamily: 'Permanent Marker, cursive'
+                marginBottom: 'clamp(8px, 2vw, 10px)',
+                fontFamily: 'Permanent Marker, cursive',
+                lineHeight: '1.2'
             }}>
                 {t.likertTitle}
             </h1>
@@ -510,10 +520,11 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
         <form onSubmit={handleSubmit}>
             <h1 style={{
                 color: '#fff',
-                fontSize: '2.2rem',
+                fontSize: 'clamp(1.6rem, 4.5vw, 2.2rem)',
                 textAlign: 'center',
-                marginBottom: '10px',
-                fontFamily: 'Permanent Marker, cursive'
+                marginBottom: 'clamp(8px, 2vw, 10px)',
+                fontFamily: 'Permanent Marker, cursive',
+                lineHeight: '1.2'
             }}>
                 {t.openTitle}
             </h1>
@@ -547,11 +558,11 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
                         style={{
                             width: '100%',
                             maxWidth: '100%',
-                            minHeight: '100px',
-                            padding: '12px',
-                            fontSize: '1rem',
-                            border: '2px solid #333',
-                            borderRadius: '8px',
+                            minHeight: 'clamp(80px, 15vw, 100px)',
+                            padding: 'clamp(10px, 2.5vw, 12px)',
+                            fontSize: 'clamp(0.9rem, 2.2vw, 1rem)',
+                            border: 'clamp(1px, 0.3vw, 2px) solid #333',
+                            borderRadius: 'clamp(6px, 1.5vw, 8px)',
                             backgroundColor: '#222',
                             color: '#fff',
                             fontFamily: 'Arial, sans-serif',
@@ -648,10 +659,11 @@ export function ThankYouScreen({ lang = 'de', susScore }) {
             <div style={containerStyle}>
                 <h1 style={{
                     color: '#fff',
-                    fontSize: '2.5rem',
+                    fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
                     textAlign: 'center',
-                    marginBottom: '20px',
-                    fontFamily: 'Permanent Marker, cursive'
+                    marginBottom: 'clamp(15px, 3vw, 20px)',
+                    fontFamily: 'Permanent Marker, cursive',
+                    lineHeight: '1.2'
                 }}>
                     {t.thankYou}
                 </h1>

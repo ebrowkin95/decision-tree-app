@@ -6,7 +6,7 @@ const formStyle = {
     width: '100vw',
     background: '#000',
     fontFamily: 'Permanent Marker, cursive',
-    padding: '20px',
+    padding: 'clamp(10px, 4vw, 20px)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start'
@@ -14,34 +14,38 @@ const formStyle = {
 
 const containerStyle = {
     background: '#181818',
-    borderRadius: '20px',
+    borderRadius: 'clamp(12px, 3vw, 20px)',
     boxShadow: '0 6px 36px #000c',
-    padding: '40px',
+    padding: 'clamp(20px, 5vw, 40px)',
     maxWidth: '600px',
     width: '100%',
-    marginTop: '40px'
+    marginTop: 'clamp(20px, 5vw, 40px)',
+    margin: 'clamp(20px, 5vw, 40px) auto 0'
 };
 
 const fieldStyle = {
-    margin: '20px 0',
+    margin: 'clamp(15px, 3vw, 20px) 0',
     display: 'flex',
     flexDirection: 'column'
 };
 
 const labelStyle = {
     color: '#fff',
-    fontSize: '1.1rem',
-    marginBottom: '8px',
+    fontSize: 'clamp(1rem, 2.5vw, 1.1rem)',
+    marginBottom: 'clamp(6px, 1.5vw, 8px)',
     fontFamily: 'Permanent Marker, cursive'
 };
 
 const inputStyle = {
-    padding: '12px 16px',
-    fontSize: '1rem',
-    border: '3px solid #000',
-    borderRadius: '8px',
+    padding: 'clamp(10px, 2.5vw, 12px) clamp(12px, 3vw, 16px)',
+    fontSize: 'clamp(0.9rem, 2.2vw, 1rem)',
+    border: 'clamp(2px, 0.5vw, 3px) solid #000',
+    borderRadius: 'clamp(6px, 1.5vw, 8px)',
     backgroundColor: '#fff',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
+    minHeight: '44px', // Touch-friendly minimum height
+    boxSizing: 'border-box',
+    width: '100%'
 };
 
 const selectStyle = {
@@ -50,45 +54,48 @@ const selectStyle = {
 };
 
 const buttonStyle = {
-    margin: '20px 0',
-    padding: '18px 32px',
+    margin: 'clamp(15px, 3vw, 20px) 0',
+    padding: 'clamp(15px, 3vw, 18px) clamp(24px, 5vw, 32px)',
     backgroundColor: '#fff',
     color: '#000',
-    border: '3px solid #000',
-    borderRadius: '12px',
+    border: 'clamp(2px, 0.5vw, 3px) solid #000',
+    borderRadius: 'clamp(8px, 2vw, 12px)',
     fontFamily: 'Permanent Marker, cursive',
-    boxShadow: '4px 4px #111',
+    boxShadow: 'clamp(2px, 0.8vw, 4px) clamp(2px, 0.8vw, 4px) #111',
     cursor: 'pointer',
-    fontSize: '1.15rem',
-    transition: 'filter 0.2s, transform 0.2s'
+    fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
+    transition: 'filter 0.2s, transform 0.2s',
+    minHeight: '44px', // Touch-friendly
+    width: '100%'
 };
 
 const checkboxStyle = {
-    margin: '10px 0',
+    margin: 'clamp(8px, 2vw, 10px) 0',
     display: 'flex',
     alignItems: 'flex-start',
-    gap: '12px'
+    gap: 'clamp(10px, 2.5vw, 12px)'
 };
 
 const checkboxInputStyle = {
-    width: '20px',
-    height: '20px',
-    marginTop: '2px',
-    minWidth: '20px',
-    minHeight: '20px'
+    width: 'clamp(18px, 4vw, 20px)',
+    height: 'clamp(18px, 4vw, 20px)',
+    marginTop: 'clamp(1px, 0.5vw, 2px)',
+    minWidth: 'clamp(18px, 4vw, 20px)',
+    minHeight: 'clamp(18px, 4vw, 20px)',
+    cursor: 'pointer'
 };
 
 const textStyle = {
     color: '#fff',
-    fontSize: '0.95rem',
+    fontSize: 'clamp(0.85rem, 2vw, 0.95rem)',
     lineHeight: '1.4',
     fontFamily: 'Arial, sans-serif'
 };
 
 const errorStyle = {
     color: '#ff6b6b',
-    fontSize: '0.9rem',
-    marginTop: '5px',
+    fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)',
+    marginTop: 'clamp(4px, 1vw, 5px)',
     fontFamily: 'Arial, sans-serif'
 };
 
@@ -441,26 +448,28 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             <div style={containerStyle}>
                 <h1 style={{
                     color: '#fff',
-                    fontSize: '2.5rem',
+                    fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
                     textAlign: 'center',
-                    marginBottom: '10px',
-                    fontFamily: 'Permanent Marker, cursive'
+                    marginBottom: 'clamp(8px, 2vw, 10px)',
+                    fontFamily: 'Permanent Marker, cursive',
+                    lineHeight: '1.2'
                 }}>
                     {t.title}
                 </h1>
                 <p style={{
                     color: '#ccc',
-                    fontSize: '1.1rem',
+                    fontSize: 'clamp(1rem, 2.5vw, 1.1rem)',
                     textAlign: 'center',
-                    marginBottom: '40px',
-                    fontFamily: 'Arial, sans-serif'
+                    marginBottom: 'clamp(25px, 5vw, 40px)',
+                    fontFamily: 'Arial, sans-serif',
+                    lineHeight: '1.4'
                 }}>
                     {t.subtitle}
                 </p>
 
                 <form onSubmit={handleSubmit}>
                     {/* Eligibility Section */}
-                    <h2 style={{ ...labelStyle, fontSize: '1.5rem', marginTop: '30px', marginBottom: '20px' }}>
+                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginTop: 'clamp(20px, 4vw, 30px)', marginBottom: 'clamp(15px, 3vw, 20px)' }}>
                         {t.eligibilitySection}
                     </h2>
 
@@ -506,7 +515,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                     </div>
 
                     {/* Profile Section */}
-                    <h2 style={{ ...labelStyle, fontSize: '1.5rem', marginTop: '40px', marginBottom: '20px' }}>
+                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginTop: 'clamp(25px, 5vw, 40px)', marginBottom: 'clamp(15px, 3vw, 20px)' }}>
                         {t.profileSection}
                     </h2>
 
@@ -598,7 +607,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                     </div>
 
                     {/* Contact Section */}
-                    <h2 style={{ ...labelStyle, fontSize: '1.5rem', marginTop: '40px', marginBottom: '20px' }}>
+                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginTop: 'clamp(25px, 5vw, 40px)', marginBottom: 'clamp(15px, 3vw, 20px)' }}>
                         {t.contactSection}
                     </h2>
 
@@ -623,22 +632,22 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                     </div>
 
                     {/* Data Protection Section */}
-                    <h2 style={{ ...labelStyle, fontSize: '1.5rem', marginTop: '40px', marginBottom: '20px' }}>
+                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginTop: 'clamp(25px, 5vw, 40px)', marginBottom: 'clamp(15px, 3vw, 20px)' }}>
                         {t.dataProtectionSection}
                     </h2>
                     
                     <div style={{
                         background: '#222',
-                        padding: '20px',
-                        borderRadius: '12px',
-                        border: '2px solid #333',
-                        marginBottom: '30px'
+                        padding: 'clamp(15px, 3vw, 20px)',
+                        borderRadius: 'clamp(8px, 2vw, 12px)',
+                        border: 'clamp(1px, 0.3vw, 2px) solid #333',
+                        marginBottom: 'clamp(20px, 4vw, 30px)'
                     }}>
                         <div style={{ marginBottom: '15px' }}>
                             <h3 style={{
                                 color: '#4CAF50',
-                                fontSize: '1.1rem',
-                                marginBottom: '5px',
+                                fontSize: 'clamp(1rem, 2.3vw, 1.1rem)',
+                                marginBottom: 'clamp(4px, 1vw, 5px)',
                                 fontFamily: 'Permanent Marker, cursive'
                             }}>
                                 {t.responsibleInstitution}
@@ -694,7 +703,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                     </div>
 
                     {/* Consent Section */}
-                    <h2 style={{ ...labelStyle, fontSize: '1.5rem', marginTop: '40px', marginBottom: '20px' }}>
+                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginTop: 'clamp(25px, 5vw, 40px)', marginBottom: 'clamp(15px, 3vw, 20px)' }}>
                         {t.consentSection}
                     </h2>
 
@@ -729,7 +738,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                     </div>
 
                     {/* Interview Section */}
-                    <h2 style={{ ...labelStyle, fontSize: '1.3rem', marginTop: '30px', marginBottom: '15px' }}>
+                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)', marginTop: 'clamp(20px, 4vw, 30px)', marginBottom: 'clamp(12px, 2.5vw, 15px)' }}>
                         {t.interviewSection}
                     </h2>
 

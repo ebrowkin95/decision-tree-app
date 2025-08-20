@@ -253,9 +253,10 @@ const TutorialModal = ({ onClose, lang }) => {
                 <div style={{ textAlign: 'center', marginBottom: '30px' }}>
                     <h1 style={{
                         color: '#fff',
-                        fontSize: '2.2rem',
-                        marginBottom: '10px',
-                        fontFamily: 'Permanent Marker, cursive'
+                        fontSize: 'clamp(1.6rem, 4.5vw, 2.2rem)',
+                        marginBottom: 'clamp(8px, 2vw, 10px)',
+                        fontFamily: 'Permanent Marker, cursive',
+                        lineHeight: '1.2'
                     }}>
                         {t.title}
                     </h1>
@@ -455,34 +456,37 @@ const containerStyle = {
     width: '100vw',
     background: '#000',
     fontFamily: 'Permanent Marker, cursive',
-    padding: '20px',
+    padding: 'clamp(10px, 4vw, 20px)',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    boxSizing: 'border-box'
 };
 
 const contentStyle = {
     background: '#181818',
-    borderRadius: '20px',
+    borderRadius: 'clamp(12px, 3vw, 20px)',
     boxShadow: '0 6px 36px #000c',
-    padding: '50px',
+    padding: 'clamp(25px, 6vw, 50px)',
     maxWidth: '800px',
     width: '100%',
-    textAlign: 'center'
+    textAlign: 'center',
+    boxSizing: 'border-box'
 };
 
 const buttonStyle = {
-    margin: '10px',
-    padding: '18px 32px',
+    margin: 'clamp(6px, 2vw, 10px)',
+    padding: 'clamp(15px, 3vw, 18px) clamp(24px, 5vw, 32px)',
     backgroundColor: '#fff',
     color: '#000',
-    border: '3px solid #000',
-    borderRadius: '12px',
+    border: 'clamp(2px, 0.5vw, 3px) solid #000',
+    borderRadius: 'clamp(8px, 2vw, 12px)',
     fontFamily: 'Permanent Marker, cursive',
-    boxShadow: '4px 4px #111',
+    boxShadow: 'clamp(2px, 0.8vw, 4px) clamp(2px, 0.8vw, 4px) #111',
     cursor: 'pointer',
-    fontSize: '1.15rem',
-    transition: 'filter 0.2s, transform 0.2s'
+    fontSize: 'clamp(1rem, 2.5vw, 1.15rem)',
+    transition: 'filter 0.2s, transform 0.2s',
+    minHeight: '44px'
 };
 
 const langButtonStyle = {
@@ -656,8 +660,8 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                 {/* Title */}
                 <h1 style={{
                     color: '#fff',
-                    fontSize: '2.5rem',
-                    marginBottom: '10px',
+                    fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
+                    marginBottom: 'clamp(8px, 2vw, 10px)',
                     fontFamily: 'Permanent Marker, cursive',
                     lineHeight: '1.2'
                 }}>
@@ -693,40 +697,41 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                     {t.steps.map((step, index) => (
                         <div key={index} style={{
                             background: '#222',
-                            padding: '20px',
-                            margin: '15px 0',
-                            borderRadius: '12px',
-                            border: '2px solid #333',
+                            padding: 'clamp(15px, 3.5vw, 20px)',
+                            margin: 'clamp(10px, 2.5vw, 15px) 0',
+                            borderRadius: 'clamp(8px, 2vw, 12px)',
+                            border: 'clamp(1px, 0.3vw, 2px) solid #333',
                             textAlign: 'left'
                         }}>
                             <h3 style={{
                                 color: '#4CAF50',
-                                fontSize: '1.3rem',
-                                marginBottom: '10px',
-                                fontFamily: 'Permanent Marker, cursive'
+                                fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)',
+                                marginBottom: 'clamp(8px, 2vw, 10px)',
+                                fontFamily: 'Permanent Marker, cursive',
+                                lineHeight: '1.2'
                             }}>
                                 {step.title}
                             </h3>
                             <p style={{
                                 color: '#fff',
-                                fontSize: '1rem',
+                                fontSize: 'clamp(0.9rem, 2.2vw, 1rem)',
                                 fontFamily: 'Arial, sans-serif',
                                 lineHeight: '1.4',
-                                margin: step.warning ? '0 0 15px 0' : 0
+                                margin: step.warning ? '0 0 clamp(12px, 2.5vw, 15px) 0' : 0
                             }}>
                                 {step.description}
                             </p>
                             {step.warning && (
                                 <div style={{
                                     background: '#2A2A2A',
-                                    border: '2px solid #FF9800',
-                                    borderRadius: '8px',
-                                    padding: '12px',
-                                    marginTop: '15px'
+                                    border: 'clamp(1px, 0.3vw, 2px) solid #FF9800',
+                                    borderRadius: 'clamp(6px, 1.5vw, 8px)',
+                                    padding: 'clamp(10px, 2.5vw, 12px)',
+                                    marginTop: 'clamp(12px, 2.5vw, 15px)'
                                 }}>
                                     <p style={{
                                         color: '#FFB74D',
-                                        fontSize: '0.95rem',
+                                        fontSize: 'clamp(0.85rem, 2vw, 0.95rem)',
                                         fontFamily: 'Arial, sans-serif',
                                         lineHeight: '1.3',
                                         margin: 0
