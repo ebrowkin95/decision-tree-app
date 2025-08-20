@@ -560,13 +560,13 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                 },
                 {
                     title: '3. Bewertung abgeben',
-                    description: 'Zum Abschluss bewerten Sie das Framework mit dem SUS-Fragebogen, 5 zusätzlichen Likert-Fragen und 3 offenen Fragen zu Ihrer Erfahrung.'
+                    description: 'Zum Abschluss bewerten Sie das Framework mit dem SUS-Fragebogen, 5 zusätzlichen Likert-Fragen und 3 offenen Fragen zu Ihrer Erfahrung.',
+                    warning: '⚠️ Wichtig: Bewerten Sie den Entscheidungsprozess des Frameworks (Auswahl zwischen Optionen bis zur Empfehlung), nicht die technische Bedienbarkeit der Web-App.'
                 }
             ],
             
             timeEstimate: 'Geschätzte Dauer: 5-10 Minuten',
             anonymity: 'Ihre Daten werden vollständig anonymisiert verarbeitet.',
-            evaluationNote: '⚠️ Wichtiger Hinweis: Bei der abschließenden Bewertung geht es um den Entscheidungsprozess des Frameworks (die Auswahl zwischen den verschiedenen Optionen bis zur Empfehlung), nicht um die technische Bedienbarkeit der Web-App.',
             
             langLabel: 'Sprache auswählen:',
             previewButton: 'Framework-Übersicht ansehen',
@@ -603,13 +603,13 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                 },
                 {
                     title: '3. Provide evaluation',
-                    description: 'Finally, you will evaluate the framework using the SUS questionnaire, 5 additional Likert questions, and 3 open questions about your experience.'
+                    description: 'Finally, you will evaluate the framework using the SUS questionnaire, 5 additional Likert questions, and 3 open questions about your experience.',
+                    warning: '⚠️ Important: Evaluate the framework\'s decision-making process (choosing between options until receiving a recommendation), not the technical usability of the web app.'
                 }
             ],
             
             timeEstimate: 'Estimated duration: 5-10 minutes',
             anonymity: 'Your data will be processed completely anonymously.',
-            evaluationNote: '⚠️ Important Note: The final evaluation focuses on the framework\'s decision-making process (choosing between different options until receiving a recommendation), not on the technical usability of the web app.',
             
             langLabel: 'Select language:',
             previewButton: 'View Framework Overview',
@@ -712,10 +712,29 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                                 fontSize: '1rem',
                                 fontFamily: 'Arial, sans-serif',
                                 lineHeight: '1.4',
-                                margin: 0
+                                margin: step.warning ? '0 0 15px 0' : 0
                             }}>
                                 {step.description}
                             </p>
+                            {step.warning && (
+                                <div style={{
+                                    background: '#2A2A2A',
+                                    border: '2px solid #FF9800',
+                                    borderRadius: '8px',
+                                    padding: '12px',
+                                    marginTop: '15px'
+                                }}>
+                                    <p style={{
+                                        color: '#FFB74D',
+                                        fontSize: '0.95rem',
+                                        fontFamily: 'Arial, sans-serif',
+                                        lineHeight: '1.3',
+                                        margin: 0
+                                    }}>
+                                        {step.warning}
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -746,25 +765,6 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                     </p>
                 </div>
 
-                {/* Evaluation Note */}
-                <div style={{
-                    background: '#2A2A2A',
-                    border: '2px solid #FF9800',
-                    borderRadius: '12px',
-                    padding: '20px',
-                    marginBottom: '20px',
-                    textAlign: 'center'
-                }}>
-                    <p style={{
-                        color: '#FFB74D',
-                        fontSize: '1rem',
-                        fontFamily: 'Arial, sans-serif',
-                        lineHeight: '1.4',
-                        margin: 0
-                    }}>
-                        {t.evaluationNote}
-                    </p>
-                </div>
 
                 {/* Framework Preview and Tutorial Buttons */}
                 <div style={{ marginBottom: '20px' }}>
