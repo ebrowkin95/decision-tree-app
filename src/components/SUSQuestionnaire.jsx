@@ -130,10 +130,10 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
             ],
             
             likertQuestions: [
-                'Ich würde das Framework in der Unterrichtsvorbereitung erneut einsetzen.',
+                'Das Framework berücksichtigt wichtige didaktische Kriterien für die Medienwahl.',
                 'Die Empfehlungen passen zu meinem Unterrichtskontext.',
                 'Das Framework hilft mir, schneller zu einer geeigneten Medienwahl zu kommen.',
-                'Ich würde das Framework Kolleg:innen empfehlen.',
+                'Das Framework hat meine Entscheidungssicherheit bei der Medienwahl erhöht.',
                 'Ich konnte meine Aufgabe mit dem Framework erfolgreich lösen.'
             ],
             
@@ -182,10 +182,10 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
             ],
             
             likertQuestions: [
-                'I would use the framework again in lesson preparation.',
+                'The framework considers important didactic criteria for media selection.',
                 'The recommendations fit my teaching context.',
                 'The framework helps me make media choices faster.',
-                'I would recommend the framework to colleagues.',
+                'The framework has increased my decision confidence in media selection.',
                 'I was able to successfully complete my task with the framework.'
             ],
             

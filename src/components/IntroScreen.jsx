@@ -1,6 +1,455 @@
 import React, { useState } from 'react';
 import frameworkImage from '../assets/Framework_4Ebenen.png';
 
+const TutorialModal = ({ onClose, lang }) => {
+    const [currentStep, setCurrentStep] = useState(0);
+
+    const tutorialData = {
+        de: {
+            title: 'Framework Tutorial',
+            subtitle: 'Schritt-für-Schritt Anleitung',
+            steps: [
+                {
+                    title: 'Schritt 1: Wissensdimension auswählen',
+                    content: [
+                        'Zunächst wählen Sie die Art des Wissens, das vermittelt werden soll:',
+                        '',
+                        '• **Faktisches Wissen**: Grundlegende Fakten, Begriffe, Definitionen',
+                        '  → Beispiel: Hauptstädte von Ländern, mathematische Formeln',
+                        '',
+                        '• **Konzeptionelles Wissen**: Zusammenhänge zwischen Konzepten, Theorien',
+                        '  → Beispiel: Funktionsweise des Klimawandels, literarische Epochen',
+                        '',
+                        '• **Prozedurales Wissen**: Schrittweise Abläufe, Fertigkeiten',
+                        '  → Beispiel: Lösen von Gleichungen, Laborexperimente durchführen',
+                        '',
+                        '• **Strategisches/Metakognitives Wissen**: Lernstrategien, Selbstreflexion',
+                        '  → Beispiel: Wie lerne ich effektiv? Wie plane ich Projekte?'
+                    ]
+                },
+                {
+                    title: 'Schritt 2: Kognitiven Prozess bestimmen',
+                    content: [
+                        'Basierend auf der gewählten Wissensdimension wählen Sie den kognitiven Prozess nach Blooms Taxonomie:',
+                        '',
+                        '• **Wissen/Erinnern**: Fakten aus dem Gedächtnis abrufen',
+                        '  → "Nennen Sie die Hauptstadt von..."',
+                        '',
+                        '• **Verstehen**: Bedeutung konstruieren, erklären können',
+                        '  → "Erklären Sie, warum..."',
+                        '',
+                        '• **Anwenden**: Erlerntes in neuen Situationen nutzen',
+                        '  → "Berechnen Sie mit der gelernten Formel..."',
+                        '',
+                        '• **Analysieren**: Zerlegung in Teile, Beziehungen erkennen',
+                        '  → "Vergleichen Sie die Ansätze..."',
+                        '',
+                        '• **Synthese**: Neue Strukturen schaffen, kombinieren',
+                        '  → "Entwickeln Sie ein Konzept für..."',
+                        '',
+                        '• **Evaluieren**: Beurteilen, bewerten nach Kriterien',
+                        '  → "Bewerten Sie die Wirksamkeit von..."'
+                    ]
+                },
+                {
+                    title: 'Schritt 3: Medientyp auswählen',
+                    content: [
+                        'Je nach Wissensdimension und kognitivem Prozess werden passende Medientypen vorgeschlagen:',
+                        '',
+                        '⚠️ **Wichtiger Hinweis**: Je nach gewählter Kombination stehen nur bestimmte Medientypen zur Verfügung, da nicht für jede Kombination digitale Medien geeignet sind.',
+                        '',
+                        '• **Textbasiert**: Bücher, PDFs, Artikel, Online-Texte',
+                        '  → Gut für faktisches Wissen und Verstehen',
+                        '',
+                        '• **Visuell**: Bilder, Grafiken, Diagramme, Infografiken',
+                        '  → Ideal für konzeptionelles Verstehen',
+                        '',
+                        '• **Auditiv**: Podcasts, Hörbücher, Audioaufnahmen',
+                        '  → Effektiv für Wissensvermittlung',
+                        '',
+                        '• **Audiovisuell**: Videos, Animationen, Screencasts',
+                        '  → Optimal für prozedurales Wissen',
+                        '',
+                        '• **Interaktiv/Multimedial**: Simulationen, Spiele, VR',
+                        '  → Perfekt für Anwendung und höhere Denkprozesse',
+                        '',
+                        '• **Datenbasiert**: Tabellen, Statistiken, Analytics',
+                        '  → Speziell für Analyse-Aufgaben'
+                    ]
+                },
+                {
+                    title: 'Schritt 4: Konkrete Medienempfehlungen',
+                    content: [
+                        'Am Ende erhalten Sie konkrete, praxisnahe Empfehlungen:',
+                        '',
+                        'Das Framework berücksichtigt dabei:',
+                        '• Pädagogische Eignung für Ihr Lernziel',
+                        '• Verfügbarkeit der Tools und Plattformen', 
+                        '• Praktische Umsetzbarkeit im Unterricht',
+                        '• Interaktivitätsgrad passend zum Lernprozess',
+                        '',
+                        'Beispiele für Empfehlungen:',
+                        '• PDFs, Glossar, E-Book (faktisches Wissen)',
+                        '• Checklisten, Schrittfolgen (prozedurales Wissen)',
+                        '• Simulationen, Planspiele (konzeptionelles Wissen)',
+                        '• Digitale Karteikarten, Quiz-Tools (interaktive Medien)'
+                    ]
+                }
+            ],
+            nextButton: 'Weiter',
+            prevButton: 'Zurück',
+            finishButton: 'Tutorial beenden'
+        },
+        en: {
+            title: 'Framework Tutorial',
+            subtitle: 'Step-by-Step Guide',
+            steps: [
+                {
+                    title: 'Step 1: Select Knowledge Dimension',
+                    content: [
+                        'First, choose the type of knowledge to be taught:',
+                        '',
+                        '• **Factual Knowledge**: Basic facts, terms, definitions',
+                        '  → Example: Country capitals, mathematical formulas',
+                        '',
+                        '• **Conceptual Knowledge**: Relationships between concepts, theories',
+                        '  → Example: How climate change works, literary periods',
+                        '',
+                        '• **Procedural Knowledge**: Step-by-step processes, skills',
+                        '  → Example: Solving equations, conducting lab experiments',
+                        '',
+                        '• **Strategic/Metacognitive Knowledge**: Learning strategies, self-reflection',
+                        '  → Example: How do I learn effectively? How do I plan projects?'
+                    ]
+                },
+                {
+                    title: 'Step 2: Determine Cognitive Process',
+                    content: [
+                        'Based on the chosen knowledge dimension, select the cognitive process according to Blooms Taxonomy:',
+                        '',
+                        '• **Knowledge/Remember**: Retrieve facts from memory',
+                        '  → "Name the capital of..."',
+                        '',
+                        '• **Understand**: Construct meaning, be able to explain',
+                        '  → "Explain why..."',
+                        '',
+                        '• **Apply**: Use learned material in new situations',
+                        '  → "Calculate using the learned formula..."',
+                        '',
+                        '• **Analyze**: Break down into parts, recognize relationships',
+                        '  → "Compare the approaches..."',
+                        '',
+                        '• **Synthesize**: Create new structures, combine',
+                        '  → "Develop a concept for..."',
+                        '',
+                        '• **Evaluate**: Judge, assess according to criteria',
+                        '  → "Evaluate the effectiveness of..."'
+                    ]
+                },
+                {
+                    title: 'Step 3: Select Media Type',
+                    content: [
+                        'Depending on knowledge dimension and cognitive process, suitable media types are suggested:',
+                        '',
+                        '⚠️ **Important Note**: Depending on the chosen combination, only certain media types are available, as digital media are not suitable for every combination.',
+                        '',
+                        '• **Text-based**: Books, PDFs, articles, online texts',
+                        '  → Good for factual knowledge and understanding',
+                        '',
+                        '• **Visual**: Images, graphics, diagrams, infographics',
+                        '  → Ideal for conceptual understanding',
+                        '',
+                        '• **Auditory**: Podcasts, audiobooks, audio recordings',
+                        '  → Effective for knowledge transmission',
+                        '',
+                        '• **Audiovisual**: Videos, animations, screencasts',
+                        '  → Optimal for procedural knowledge',
+                        '',
+                        '• **Interactive/Multimedia**: Simulations, games, VR',
+                        '  → Perfect for application and higher-order thinking',
+                        '',
+                        '• **Data-driven**: Tables, statistics, analytics',
+                        '  → Specifically for analysis tasks'
+                    ]
+                },
+                {
+                    title: 'Step 4: Concrete Media Recommendations',
+                    content: [
+                        'Finally, you receive concrete, practical recommendations:',
+                        '',
+                        'The framework considers:',
+                        '• Pedagogical suitability for your learning objective',
+                        '• Availability of tools and platforms',
+                        '• Practical feasibility in the classroom',
+                        '• Level of interactivity matching the learning process',
+                        '',
+                        'Examples of recommendations:',
+                        '• PDFs, Glossary, E-Book (factual knowledge)',
+                        '• Checklists, Step-by-Step Instructions (procedural knowledge)',
+                        '• Simulations, Role-Playing Games (conceptual knowledge)',
+                        '• Digital Flashcards, Quiz Tools (interactive media)'
+                    ]
+                }
+            ],
+            nextButton: 'Next',
+            prevButton: 'Back',
+            finishButton: 'Finish Tutorial'
+        }
+    };
+
+    const t = tutorialData[lang];
+    const currentStepData = t.steps[currentStep];
+
+    return (
+        <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000
+        }}>
+            <div style={{
+                background: '#181818',
+                borderRadius: '20px',
+                padding: '40px',
+                maxWidth: '80vw',
+                maxHeight: '90vh',
+                width: '800px',
+                position: 'relative',
+                overflow: 'hidden'
+            }}>
+                {/* Close Button */}
+                <button
+                    style={{
+                        position: 'absolute',
+                        top: '15px',
+                        right: '20px',
+                        background: '#f44336',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        fontSize: '1.5rem',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        zIndex: 1001,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        lineHeight: 1
+                    }}
+                    onClick={onClose}
+                >
+                    ×
+                </button>
+
+                {/* Header */}
+                <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                    <h1 style={{
+                        color: '#fff',
+                        fontSize: '2.2rem',
+                        marginBottom: '10px',
+                        fontFamily: 'Permanent Marker, cursive'
+                    }}>
+                        {t.title}
+                    </h1>
+                    <p style={{
+                        color: '#4CAF50',
+                        fontSize: '1.2rem',
+                        fontFamily: 'Arial, sans-serif',
+                        fontStyle: 'italic',
+                        margin: 0
+                    }}>
+                        {t.subtitle}
+                    </p>
+                </div>
+
+                {/* Progress Indicators */}
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginBottom: '30px',
+                    gap: '10px'
+                }}>
+                    {t.steps.map((_, index) => (
+                        <div
+                            key={index}
+                            style={{
+                                width: '12px',
+                                height: '12px',
+                                borderRadius: '50%',
+                                backgroundColor: index === currentStep ? '#4CAF50' : '#666',
+                                cursor: 'pointer',
+                                transition: 'background-color 0.3s'
+                            }}
+                            onClick={() => setCurrentStep(index)}
+                        />
+                    ))}
+                </div>
+
+                {/* Content */}
+                <div style={{
+                    background: '#222',
+                    borderRadius: '15px',
+                    padding: '30px',
+                    marginBottom: '30px',
+                    maxHeight: '50vh',
+                    overflowY: 'auto',
+                    border: '2px solid #333'
+                }}>
+                    <h2 style={{
+                        color: '#4CAF50',
+                        fontSize: '1.5rem',
+                        marginBottom: '20px',
+                        fontFamily: 'Permanent Marker, cursive'
+                    }}>
+                        {currentStepData.title}
+                    </h2>
+                    
+                    <div style={{ fontFamily: 'Arial, sans-serif', lineHeight: '1.6' }}>
+                        {currentStepData.content.map((line, index) => {
+                            if (line === '') {
+                                return <br key={index} />;
+                            }
+                            if (line.startsWith('• **') && line.includes('**:')) {
+                                const [boldPart, normalPart] = line.split('**:');
+                                return (
+                                    <p key={index} style={{
+                                        color: '#fff',
+                                        fontSize: '1rem',
+                                        margin: '10px 0',
+                                        paddingLeft: '10px'
+                                    }}>
+                                        <strong style={{ color: '#4CAF50' }}>
+                                            {boldPart.replace('• **', '• ')}:
+                                        </strong>
+                                        {normalPart}
+                                    </p>
+                                );
+                            }
+                            if (line.startsWith('⚠️ **') && line.includes('**:')) {
+                                const [boldPart, normalPart] = line.split('**:');
+                                return (
+                                    <p key={index} style={{
+                                        color: '#FFB74D',
+                                        fontSize: '1rem',
+                                        margin: '15px 0',
+                                        padding: '12px',
+                                        backgroundColor: '#2A2A2A',
+                                        borderRadius: '8px',
+                                        border: '2px solid #FF9800'
+                                    }}>
+                                        <strong style={{ color: '#FF9800' }}>
+                                            {boldPart.replace('**', '')}:
+                                        </strong>
+                                        {normalPart}
+                                    </p>
+                                );
+                            }
+                            if (line.startsWith('• ') && !line.includes('**')) {
+                                return (
+                                    <p key={index} style={{
+                                        color: '#fff',
+                                        fontSize: '1rem',
+                                        margin: '8px 0',
+                                        paddingLeft: '10px'
+                                    }}>
+                                        <span style={{ color: '#4CAF50', fontWeight: 'bold' }}>•</span>
+                                        {line.substring(1)}
+                                    </p>
+                                );
+                            }
+                            if (line.startsWith('  → ')) {
+                                return (
+                                    <p key={index} style={{
+                                        color: '#ccc',
+                                        fontSize: '0.95rem',
+                                        margin: '5px 0',
+                                        paddingLeft: '30px',
+                                        fontStyle: 'italic'
+                                    }}>
+                                        {line}
+                                    </p>
+                                );
+                            }
+                            return (
+                                <p key={index} style={{
+                                    color: '#fff',
+                                    fontSize: '1rem',
+                                    margin: '10px 0'
+                                }}>
+                                    {line}
+                                </p>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Navigation */}
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                    <button
+                        style={{
+                            padding: '12px 24px',
+                            backgroundColor: currentStep === 0 ? '#666' : '#2196F3',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '8px',
+                            fontFamily: 'Arial, sans-serif',
+                            fontSize: '1rem',
+                            cursor: currentStep === 0 ? 'not-allowed' : 'pointer',
+                            opacity: currentStep === 0 ? 0.5 : 1
+                        }}
+                        onClick={() => currentStep > 0 && setCurrentStep(currentStep - 1)}
+                        disabled={currentStep === 0}
+                    >
+                        {t.prevButton}
+                    </button>
+
+                    <span style={{
+                        color: '#ccc',
+                        fontFamily: 'Arial, sans-serif',
+                        fontSize: '1rem'
+                    }}>
+                        {currentStep + 1} / {t.steps.length}
+                    </span>
+
+                    <button
+                        style={{
+                            padding: '12px 24px',
+                            backgroundColor: currentStep === t.steps.length - 1 ? '#4CAF50' : '#2196F3',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '8px',
+                            fontFamily: 'Arial, sans-serif',
+                            fontSize: '1rem',
+                            cursor: 'pointer'
+                        }}
+                        onClick={() => {
+                            if (currentStep === t.steps.length - 1) {
+                                onClose();
+                            } else {
+                                setCurrentStep(currentStep + 1);
+                            }
+                        }}
+                    >
+                        {currentStep === t.steps.length - 1 ? t.finishButton : t.nextButton}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const containerStyle = {
     minHeight: '100vh',
     width: '100vw',
@@ -54,6 +503,7 @@ const activeLangButtonStyle = {
 
 export function IntroScreen({ onContinue, lang, onLanguageChange }) {
     const [showFramework, setShowFramework] = useState(false);
+    const [showTutorial, setShowTutorial] = useState(false);
     const [zoomLevel, setZoomLevel] = useState(1);
     const [dragStart, setDragStart] = useState(null);
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
@@ -116,10 +566,13 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
             
             timeEstimate: 'Geschätzte Dauer: 5-10 Minuten',
             anonymity: 'Ihre Daten werden vollständig anonymisiert verarbeitet.',
+            evaluationNote: '⚠️ Wichtiger Hinweis: Bei der abschließenden Bewertung geht es um den Entscheidungsprozess des Frameworks (die Auswahl zwischen den verschiedenen Optionen bis zur Empfehlung), nicht um die technische Bedienbarkeit der Web-App.',
             
             langLabel: 'Sprache auswählen:',
             previewButton: 'Framework-Übersicht ansehen',
+            tutorialButton: 'Tutorial ansehen',
             closePreview: 'Schließen',
+            closeTutorial: 'Tutorial schließen',
             zoomIn: 'Vergrößern',
             zoomOut: 'Verkleinern',
             resetZoom: 'Zoom zurücksetzen',
@@ -156,10 +609,13 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
             
             timeEstimate: 'Estimated duration: 5-10 minutes',
             anonymity: 'Your data will be processed completely anonymously.',
+            evaluationNote: '⚠️ Important Note: The final evaluation focuses on the framework\'s decision-making process (choosing between different options until receiving a recommendation), not on the technical usability of the web app.',
             
             langLabel: 'Select language:',
             previewButton: 'View Framework Overview',
+            tutorialButton: 'View Tutorial',
             closePreview: 'Close',
+            closeTutorial: 'Close Tutorial',
             zoomIn: 'Zoom In',
             zoomOut: 'Zoom Out',
             resetZoom: 'Reset Zoom',
@@ -290,24 +746,62 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                     </p>
                 </div>
 
-                {/* Framework Preview Button - nur Deutsch */}
-                {lang === 'de' && (
+                {/* Evaluation Note */}
+                <div style={{
+                    background: '#2A2A2A',
+                    border: '2px solid #FF9800',
+                    borderRadius: '12px',
+                    padding: '20px',
+                    marginBottom: '20px',
+                    textAlign: 'center'
+                }}>
+                    <p style={{
+                        color: '#FFB74D',
+                        fontSize: '1rem',
+                        fontFamily: 'Arial, sans-serif',
+                        lineHeight: '1.4',
+                        margin: 0
+                    }}>
+                        {t.evaluationNote}
+                    </p>
+                </div>
+
+                {/* Framework Preview and Tutorial Buttons */}
+                <div style={{ marginBottom: '20px' }}>
+                    {/* Framework Preview Button - nur Deutsch */}
+                    {lang === 'de' && (
+                        <button
+                            style={{
+                                ...buttonStyle,
+                                fontSize: '1.2rem',
+                                backgroundColor: '#2196F3',
+                                color: '#fff',
+                                border: '3px solid #1976D2',
+                                padding: '15px 30px',
+                                marginRight: '15px'
+                            }}
+                            onClick={() => setShowFramework(true)}
+                            className="excalidraw-box"
+                        >
+                            {t.previewButton}
+                        </button>
+                    )}
+                    {/* Tutorial Button - beide Sprachen */}
                     <button
                         style={{
                             ...buttonStyle,
                             fontSize: '1.2rem',
-                            backgroundColor: '#2196F3',
+                            backgroundColor: '#FF9800',
                             color: '#fff',
-                            border: '3px solid #1976D2',
-                            padding: '15px 30px',
-                            marginBottom: '20px'
+                            border: '3px solid #F57C00',
+                            padding: '15px 30px'
                         }}
-                        onClick={() => setShowFramework(true)}
+                        onClick={() => setShowTutorial(true)}
                         className="excalidraw-box"
                     >
-                        {t.previewButton}
+                        {t.tutorialButton}
                     </button>
-                )}
+                </div>
 
                 {/* Start Button */}
                 <button
@@ -324,6 +818,14 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                 >
                     {t.startButton}
                 </button>
+
+                {/* Tutorial Modal */}
+                {showTutorial && (
+                    <TutorialModal 
+                        onClose={() => setShowTutorial(false)}
+                        lang={lang}
+                    />
+                )}
 
                 {/* Framework Preview Modal */}
                 {showFramework && (
@@ -369,7 +871,11 @@ export function IntroScreen({ onContinue, lang, onLanguageChange }) {
                                     fontSize: '1.5rem',
                                     cursor: 'pointer',
                                     fontWeight: 'bold',
-                                    zIndex: 1001
+                                    zIndex: 1001,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    lineHeight: 1
                                 }}
                                 onClick={() => {
                                     setShowFramework(false);

@@ -21,6 +21,7 @@ ALTER TABLE research_data ADD COLUMN IF NOT EXISTS consent_transcription BOOLEAN
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS consent_quotes BOOLEAN;
 
 -- 4. Neue Fragebogen-Spalten hinzufügen
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS planning_frequency TEXT;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS likert_responses JSONB;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS open_responses JSONB;
 
@@ -43,6 +44,7 @@ SELECT
     teaching_experience,
     subjects,
     digital_experience,
+    planning_frequency,
     consent_participation,
     consent_data_processing,
     consent_interview,

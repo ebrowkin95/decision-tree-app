@@ -105,6 +105,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
         teachingExperience: '',
         subjects: '',
         digitalExperience: '',
+        planningFrequency: '',
         
         // Contact (optional)
         email: '',
@@ -155,6 +156,9 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             digitalExperience: 'Erfahrung mit digitalen Medien im Unterricht',
             digitalExperienceRequired: 'Bitte bewerten Sie Ihre digitale Erfahrung',
             
+            planningFrequency: 'Wie oft planen Sie Unterricht mit digitalen Medien?',
+            planningFrequencyRequired: 'Bitte wählen Sie Ihre Planungsfrequenz',
+            
             contactSection: 'Kontakt (freiwillig)',
             email: 'E-Mail-Adresse (für Ergebnisse und Gutschein)',
             emailNotice: 'Ihre E-Mail wird getrennt gespeichert und nur für Terminvereinbarung/Ergebnisübermittlung und Gutschein-Zusendung verwendet. Automatische Löschung nach 6 Monaten.',
@@ -197,8 +201,11 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             },
             
             roles: {
-                teacher: 'Lehrkraft',
-                trainee: 'Referendar/in'
+                teacher_active: 'Lehrkraft (aktiv im Schuldienst)',
+                teacher_trainee: 'Referendar:in/Lehramtsanwärter:in',
+                teacher_leave: 'Lehrkraft in Elternzeit/Sabbatical',
+                student: 'Lehramtsstudent:in',
+                other: 'Sonstiges'
             },
             
             genders: {
@@ -215,6 +222,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                 gymnasium: 'Gymnasium',
                 gesamtschule: 'Gesamtschule',
                 berufsschule: 'Berufsschule',
+                universitaet: 'Universität',
                 other: 'Andere'
             },
             
@@ -232,6 +240,13 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                 intermediate: 'Fortgeschritten',
                 advanced: 'Sehr fortgeschritten',
                 expert: 'Experte'
+            },
+            
+            planningFrequencies: {
+                weekly: 'Wöchentlich',
+                monthly: 'Monatlich',
+                rarely: 'Seltener',
+                never: 'Nie'
             },
             
             submit: 'Framework starten',
@@ -267,6 +282,9 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             
             digitalExperience: 'Experience with Digital Media in Teaching',
             digitalExperienceRequired: 'Please rate your digital experience',
+            
+            planningFrequency: 'How often do you plan lessons with digital media?',
+            planningFrequencyRequired: 'Please select your planning frequency',
             
             contactSection: 'Contact (optional)',
             email: 'Email Address (for results and voucher)',
@@ -310,8 +328,11 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             },
             
             roles: {
-                teacher: 'Teacher',
-                trainee: 'Trainee Teacher'
+                teacher_active: 'Teacher (actively teaching)',
+                teacher_trainee: 'Teacher trainee/Student teacher',
+                teacher_leave: 'Teacher on parental leave/sabbatical',
+                student: 'Teaching student',
+                other: 'Other'
             },
             
             genders: {
@@ -352,6 +373,13 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                 intermediate: 'Intermediate',
                 advanced: 'Advanced',
                 expert: 'Expert'
+            },
+            
+            planningFrequencies: {
+                weekly: 'Weekly',
+                monthly: 'Monthly',
+                rarely: 'Rarely',
+                never: 'Never'
             },
             
             submit: 'Start Framework',
@@ -552,6 +580,21 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                             ))}
                         </select>
                         {errors.digitalExperience && <div style={errorStyle}>{errors.digitalExperience}</div>}
+                    </div>
+
+                    <div style={fieldStyle}>
+                        <label style={labelStyle}>{t.planningFrequency}</label>
+                        <select
+                            style={selectStyle}
+                            value={formData.planningFrequency}
+                            onChange={(e) => handleInputChange('planningFrequency', e.target.value)}
+                        >
+                            <option value="">{lang === 'de' ? '-- Bitte wählen --' : '-- Please select --'}</option>
+                            {Object.entries(t.planningFrequencies).map(([key, value]) => (
+                                <option key={key} value={key}>{value}</option>
+                            ))}
+                        </select>
+                        {errors.planningFrequency && <div style={errorStyle}>{errors.planningFrequency}</div>}
                     </div>
 
                     {/* Contact Section */}
