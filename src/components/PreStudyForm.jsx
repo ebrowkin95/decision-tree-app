@@ -460,7 +460,20 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
     };
 
     const handleInputChange = (field, value) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData(prev => {
+            const newData = { ...prev, [field]: value };
+            
+            // If interview consent is unchecked, also uncheck all related interview options
+            if (field === 'consentInterview' && !value) {
+                newData.consentRecording = false;
+                newData.consentTranscription = false;
+                newData.consentQuotes = false;
+                newData.interviewContact = '';
+            }
+            
+            return newData;
+        });
+        
         if (errors[field]) {
             setErrors(prev => ({ ...prev, [field]: '' }));
         }
@@ -788,34 +801,37 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                         </div>
                     )}
 
-                    <div style={checkboxStyle}>
+                    <div style={{...checkboxStyle, opacity: formData.consentInterview ? 1 : 0.5}}>
                         <input
                             type="checkbox"
                             style={checkboxInputStyle}
                             checked={formData.consentRecording}
+                            disabled={!formData.consentInterview}
                             onChange={(e) => handleInputChange('consentRecording', e.target.checked)}
                         />
-                        <span style={textStyle}>{t.consentRecording}</span>
+                        <span style={{...textStyle, color: formData.consentInterview ? '#fff' : '#888'}}>{t.consentRecording}</span>
                     </div>
 
-                    <div style={checkboxStyle}>
+                    <div style={{...checkboxStyle, opacity: formData.consentInterview ? 1 : 0.5}}>
                         <input
                             type="checkbox"
                             style={checkboxInputStyle}
                             checked={formData.consentTranscription}
+                            disabled={!formData.consentInterview}
                             onChange={(e) => handleInputChange('consentTranscription', e.target.checked)}
                         />
-                        <span style={textStyle}>{t.consentTranscription}</span>
+                        <span style={{...textStyle, color: formData.consentInterview ? '#fff' : '#888'}}>{t.consentTranscription}</span>
                     </div>
 
-                    <div style={checkboxStyle}>
+                    <div style={{...checkboxStyle, opacity: formData.consentInterview ? 1 : 0.5}}>
                         <input
                             type="checkbox"
                             style={checkboxInputStyle}
                             checked={formData.consentQuotes}
+                            disabled={!formData.consentInterview}
                             onChange={(e) => handleInputChange('consentQuotes', e.target.checked)}
                         />
-                        <span style={textStyle}>{t.consentQuotes}</span>
+                        <span style={{...textStyle, color: formData.consentInterview ? '#fff' : '#888'}}>{t.consentQuotes}</span>
                     </div>
 
                     {errors.consent && <div style={errorStyle}>{errors.consent}</div>}
