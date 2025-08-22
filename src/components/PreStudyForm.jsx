@@ -124,14 +124,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
         // Consent
         consentParticipation: false,
         consentDataProcessing: false,
-        consentContact: false,
-        
-        // Interview consent (optional)
-        consentInterview: false,
-        consentRecording: false,
-        consentTranscription: false,
-        consentQuotes: false,
-        interviewContact: ''
+        consentContact: false
     });
 
     const [errors, setErrors] = useState({});
@@ -189,14 +182,6 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             consentParticipation: 'Ich bin damit einverstanden, an dieser Studie teilzunehmen und das Framework zu bewerten.',
             consentDataProcessing: 'Ich stimme der anonymisierten Datenverarbeitung für wissenschaftliche Zwecke zu.',
             consentContact: 'Ich bin damit einverstanden, dass meine E-Mail-Adresse für die Zusendung der Studienergebnisse gespeichert wird (optional).',
-            
-            // Interview consent
-            interviewSection: 'Interview-Teilnahme (optional)',
-            consentInterview: 'Bereitschaft zu einem ~5-min Interview (Teams, Telefon, WhatsApp, Discord, E-Mail - Interview auch ohne Aufzeichnung möglich)',
-            interviewContact: 'Kontakt für Interview (Teams, Discord, Telefon, WhatsApp, E-Mail, etc.)',
-            consentRecording: 'Einwilligung Audio-Aufzeichnung (optional)',
-            consentTranscription: 'Einwilligung automatische Transkription & anonymisierte Auswertung (optional)',
-            consentQuotes: 'Einwilligung Nutzung anonymisierter Zitate (optional)',
             
             consentRequired: 'Zustimmung zur Teilnahme und Datenverarbeitung erforderlich',
             
@@ -316,14 +301,6 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             consentParticipation: 'I agree to participate in this study and evaluate the framework.',
             consentDataProcessing: 'I consent to anonymized data processing for scientific purposes.',
             consentContact: 'I agree that my email address may be stored for sending study results (optional).',
-            
-            // Interview consent
-            interviewSection: 'Interview Participation (optional)',
-            consentInterview: 'Willingness to participate in a ~5-min interview (Teams, Phone, WhatsApp, Discord, Email - interview also possible without recording)',
-            interviewContact: 'Contact for interview (Teams, Discord, Phone, WhatsApp, Email, etc.)',
-            consentRecording: 'Consent to audio recording (optional)',
-            consentTranscription: 'Consent to automatic transcription & anonymized analysis (optional)',
-            consentQuotes: 'Consent to use of anonymized quotes (optional)',
             
             consentRequired: 'Consent for participation and data processing required',
             
@@ -460,20 +437,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
     };
 
     const handleInputChange = (field, value) => {
-        setFormData(prev => {
-            const newData = { ...prev, [field]: value };
-            
-            // If interview consent is unchecked, also uncheck all related interview options
-            if (field === 'consentInterview' && !value) {
-                newData.consentRecording = false;
-                newData.consentTranscription = false;
-                newData.consentQuotes = false;
-                newData.interviewContact = '';
-            }
-            
-            return newData;
-        });
-        
+        setFormData(prev => ({ ...prev, [field]: value }));
         if (errors[field]) {
             setErrors(prev => ({ ...prev, [field]: '' }));
         }
@@ -773,66 +737,6 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                         <span style={textStyle}>{t.consentContact}</span>
                     </div>
 
-                    {/* Interview Section */}
-                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)', marginTop: 'clamp(20px, 4vw, 30px)', marginBottom: 'clamp(12px, 2.5vw, 15px)' }}>
-                        {t.interviewSection}
-                    </h2>
-
-                    <div style={checkboxStyle}>
-                        <input
-                            type="checkbox"
-                            style={checkboxInputStyle}
-                            checked={formData.consentInterview}
-                            onChange={(e) => handleInputChange('consentInterview', e.target.checked)}
-                        />
-                        <span style={textStyle}>{t.consentInterview}</span>
-                    </div>
-
-                    {formData.consentInterview && (
-                        <div style={fieldStyle}>
-                            <label style={labelStyle}>{t.interviewContact}</label>
-                            <input
-                                type="text"
-                                style={inputStyle}
-                                value={formData.interviewContact}
-                                onChange={(e) => handleInputChange('interviewContact', e.target.value)}
-                                placeholder={lang === 'de' ? 'z.B. Teams: name@uni.de, Discord: username#1234, Tel: +49123456789' : 'e.g. Teams: name@uni.edu, Discord: username#1234, Phone: +1234567890'}
-                            />
-                        </div>
-                    )}
-
-                    <div style={{...checkboxStyle, opacity: formData.consentInterview ? 1 : 0.5}}>
-                        <input
-                            type="checkbox"
-                            style={checkboxInputStyle}
-                            checked={formData.consentRecording}
-                            disabled={!formData.consentInterview}
-                            onChange={(e) => handleInputChange('consentRecording', e.target.checked)}
-                        />
-                        <span style={{...textStyle, color: formData.consentInterview ? '#fff' : '#888'}}>{t.consentRecording}</span>
-                    </div>
-
-                    <div style={{...checkboxStyle, opacity: formData.consentInterview ? 1 : 0.5}}>
-                        <input
-                            type="checkbox"
-                            style={checkboxInputStyle}
-                            checked={formData.consentTranscription}
-                            disabled={!formData.consentInterview}
-                            onChange={(e) => handleInputChange('consentTranscription', e.target.checked)}
-                        />
-                        <span style={{...textStyle, color: formData.consentInterview ? '#fff' : '#888'}}>{t.consentTranscription}</span>
-                    </div>
-
-                    <div style={{...checkboxStyle, opacity: formData.consentInterview ? 1 : 0.5}}>
-                        <input
-                            type="checkbox"
-                            style={checkboxInputStyle}
-                            checked={formData.consentQuotes}
-                            disabled={!formData.consentInterview}
-                            onChange={(e) => handleInputChange('consentQuotes', e.target.checked)}
-                        />
-                        <span style={{...textStyle, color: formData.consentInterview ? '#fff' : '#888'}}>{t.consentQuotes}</span>
-                    </div>
 
                     {errors.consent && <div style={errorStyle}>{errors.consent}</div>}
 

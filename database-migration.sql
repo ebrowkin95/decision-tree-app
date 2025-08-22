@@ -15,10 +15,7 @@ ALTER TABLE research_data DROP COLUMN IF EXISTS age;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS age_confirmation BOOLEAN;
 
 -- 3. Neue Consent-Spalten hinzufügen
-ALTER TABLE research_data ADD COLUMN IF NOT EXISTS consent_interview BOOLEAN;
-ALTER TABLE research_data ADD COLUMN IF NOT EXISTS consent_recording BOOLEAN;
-ALTER TABLE research_data ADD COLUMN IF NOT EXISTS consent_transcription BOOLEAN;
-ALTER TABLE research_data ADD COLUMN IF NOT EXISTS consent_quotes BOOLEAN;
+-- Interview-related columns removed
 
 -- 4. Neue Fragebogen-Spalten hinzufügen
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS planning_frequency TEXT;
@@ -49,10 +46,6 @@ SELECT
     traffic_source,
     consent_participation,
     consent_data_processing,
-    consent_interview,
-    consent_recording,
-    consent_transcription,
-    consent_quotes,
     sus_responses,
     sus_score,
     likert_responses,
@@ -65,21 +58,7 @@ SELECT
 FROM research_data
 ORDER BY created_at;
 
--- 6. Interview-Kontakte View erstellen (nur für berechtigte Forscher)
-CREATE VIEW interview_contacts_view AS
-SELECT
-    participant_id,
-    consent_interview,
-    interview_contact,
-    consent_recording,
-    consent_transcription,
-    consent_quotes,
-    created_at
-FROM research_data
-WHERE consent_interview = true
-  AND interview_contact IS NOT NULL
-  AND trim(interview_contact) != ''
-ORDER BY created_at;
+-- 6. Interview-Kontakte View entfernt (nicht mehr benötigt)
 
 -- 8. Neue View für Qualitätsanalyse (Zeit-basiert)
 CREATE VIEW quality_analysis AS
