@@ -97,7 +97,7 @@ const errorStyle = {
     textAlign: 'center'
 };
 
-export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
+export function SUSQuestionnaire({ onComplete, lang = 'de', participantData, selectedSituation, frameworkPath }) {
     const [susResponses, setSusResponses] = useState({});
     const [likertResponses, setLikertResponses] = useState({});
     const [openResponses, setOpenResponses] = useState({
@@ -306,6 +306,8 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
                 openResponses,
                 timingData: timingData,
                 qualityIndicators: qualityCheck,
+                selectedSituation: selectedSituation,
+                frameworkPath: frameworkPath,
                 completedAt: new Date().toISOString()
             };
 
@@ -333,6 +335,8 @@ export function SUSQuestionnaire({ onComplete, lang = 'de', participantData }) {
                 openResponses,
                 timingData: timingService.getCompletionTimes(),
                 qualityIndicators: timingService.getQualityIndicators(timingService.getCompletionTimes()),
+                selectedSituation: selectedSituation,
+                frameworkPath: frameworkPath,
                 completedAt: new Date().toISOString()
             };
             

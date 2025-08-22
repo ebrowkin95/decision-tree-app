@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DecisionTree } from './components/DecisionTree';
 import { PreStudyForm } from './components/PreStudyForm';
 import { SUSQuestionnaire, ThankYouScreen } from './components/SUSQuestionnaire';
 import { IntroScreen } from './components/IntroScreen';
+import { SituationSelection } from './components/SituationSelection';
+import { getSessionToken } from './utils/sessionToken.js';
 // Data submission is now handled in SUSQuestionnaire component
 
 export default function App() {
-    const [currentStep, setCurrentStep] = useState('intro'); // intro -> preStudy -> framework -> sus -> complete
+    const [currentStep, setCurrentStep] = useState('intro'); // intro -> preStudy -> situation -> framework -> sus -> complete
     const [participantData, setParticipantData] = useState(null);
+    const [selectedSituation, setSelectedSituation] = useState(null);
+    const [frameworkPath, setFrameworkPath] = useState(null);
     const [completeData, setCompleteData] = useState(null);
     const [lang, setLang] = useState('de');
+
+    // Initialize session token on app start
+    useEffect(() => {
+        const token = getSessionToken();
+        console.log('App initialized with session token:', token);
+    }, []);
 
     const handleIntroComplete = () => {
         setCurrentStep('preStudy');
@@ -21,10 +31,16 @@ export default function App() {
 
     const handlePreStudyComplete = (formData) => {
         setParticipantData(formData);
+        setCurrentStep('situation');
+    };
+
+    const handleSituationSelected = (situation) => {
+        setSelectedSituation(situation);
         setCurrentStep('framework');
     };
 
-    const handleFrameworkComplete = () => {
+    const handleFrameworkComplete = (path) => {
+        setFrameworkPath(path);
         setCurrentStep('sus');
     };
 
@@ -56,8 +72,12 @@ export default function App() {
         return <PreStudyForm onComplete={handlePreStudyComplete} lang={lang} />;
     }
 
+    if (currentStep === 'situation') {
+        return <SituationSelection onSituationSelected={handleSituationSelected} lang={lang} />;
+    }
+
     if (currentStep === 'framework') {
-        return <DecisionTree onComplete={handleFrameworkComplete} lang={lang} />;
+        return <DecisionTree onComplete={handleFrameworkComplete} lang={lang} selectedSituation={selectedSituation} />;
     }
 
     if (currentStep === 'sus') {
@@ -66,6 +86,8 @@ export default function App() {
                 onComplete={handleSUSComplete} 
                 lang={lang} 
                 participantData={participantData}
+                selectedSituation={selectedSituation}
+                frameworkPath={frameworkPath}
             />
         );
     }

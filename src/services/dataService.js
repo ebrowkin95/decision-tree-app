@@ -1,4 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
+import { compareFrameworkPaths } from '../data/teachingSituations.js';
+import { getSessionTrackingData, incrementSubmissionCount } from '../utils/sessionToken.js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://yyzxwutjdeykrataqxmm.supabase.co';
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5enh3dXRqZGV5a3JhdGFxeG1tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0NDQ3NTYsImV4cCI6MjA3MTAyMDc1Nn0.dXuqWZ6-L_i8F2KNSO5CTTVr224Bl6NjIkwwfKuJYdU';
@@ -10,20 +12,34 @@ export const submitStudyData = async (data) => {
   try {
     console.log('Attempting to submit data to Supabase directly...');
     
-    const { participantData, susResponses, susScore, likertResponses, openResponses, completedAt, timingData } = data;
+    const { participantData, susResponses, susScore, likertResponses, openResponses, completedAt, timingData, selectedSituation, frameworkPath } = data;
     const { email, ...profileData } = participantData;
 
-    // Generate a unique participant ID with session info to prevent duplicates
-    const sessionId = sessionStorage.getItem('session_id') || `s_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    sessionStorage.setItem('session_id', sessionId);
-    const participantId = `p_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${sessionId.substr(-6)}`;
+    // Get session tracking data
+    const sessionData = getSessionTrackingData();
+    const submissionCount = incrementSubmissionCount();
+    
+    // Generate a unique participant ID with session token
+    const participantId = `p_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${sessionData.sessionToken.substr(-8)}`;
+    
+    console.log('Session tracking:', {
+      sessionToken: sessionData.sessionToken,
+      submissionCount: submissionCount,
+      isRepeat: sessionData.isRepeatedSubmission
+    });
 
     // Calculate total completion time for quality control
     const totalTimeMinutes = timingData && timingData.totalMinutes ? Math.min(timingData.totalMinutes, 99999.99) : null;
     const frameworkTimeMinutes = timingData && timingData.frameworkMinutes ? Math.min(timingData.frameworkMinutes, 99999.99) : null;
     const surveyTimeMinutes = timingData && timingData.surveyMinutes ? Math.min(timingData.surveyMinutes, 99999.99) : null;
 
-    // Store anonymous research data with timing
+    // Calculate path comparison if situation and framework path are provided
+    let pathComparison = null;
+    if (selectedSituation && frameworkPath) {
+      pathComparison = compareFrameworkPaths(frameworkPath, selectedSituation.id);
+    }
+
+    // Store anonymous research data with timing and session tracking
     const researchData = {
       participant_id: participantId,
       age_confirmation: profileData.ageConfirmation,
@@ -46,6 +62,16 @@ export const submitStudyData = async (data) => {
       completion_time_total_minutes: totalTimeMinutes,
       completion_time_framework_minutes: frameworkTimeMinutes,
       completion_time_survey_minutes: surveyTimeMinutes,
+      selected_situation_id: selectedSituation ? selectedSituation.id : null,
+      framework_path_taken: frameworkPath || null,
+      path_matches_situation: pathComparison ? pathComparison.matches : null,
+      path_match_details: pathComparison || null,
+      // Session tracking fields
+      session_token: sessionData.sessionToken,
+      submission_count: submissionCount,
+      is_repeated_submission: submissionCount > 1,
+      session_duration_minutes: sessionData.sessionDurationMinutes,
+      browser_info: sessionData.browserInfo,
       completed_at: completedAt || new Date().toISOString(),
     };
 

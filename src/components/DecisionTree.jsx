@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { treeData } from '../treeData';
 import { timingService } from '../services/timingService.js';
+import { getSituationContext } from '../data/teachingSituations.js';
 import '../styles/excalidraw.css';  // Excalidraw-Style und Font
 
 const buttonStyle = {
@@ -135,7 +136,7 @@ function InfoButton({ label, info, onClick }) {
 }
 
 
-export function DecisionTree({ onComplete, lang: propLang }) {
+export function DecisionTree({ onComplete, lang: propLang, selectedSituation }) {
     const [step, setStep] = useState('dimension');
     const [selection, setSelection] = useState({});
     const [lang, setLang] = useState(propLang || 'de');
@@ -196,6 +197,95 @@ export function DecisionTree({ onComplete, lang: propLang }) {
             }}>
                 {lang === 'de' ? 'Digitales Medienauswahl-Framework' : 'Digital Media Selection Framework'}
             </h1>
+            
+            {/* Situation Context Display */}
+            {selectedSituation && (
+                <div style={{
+                    maxWidth: '800px',
+                    margin: '0 auto clamp(20px, 4vw, 30px) auto',
+                    background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
+                    border: '3px solid #1565C0',
+                    borderRadius: 'clamp(12px, 3vw, 16px)',
+                    padding: 'clamp(15px, 3vw, 20px)',
+                    boxShadow: '0 6px 20px rgba(33, 150, 243, 0.3)',
+                    position: 'relative'
+                }}>
+                    <div style={{
+                        position: 'absolute',
+                        top: '-12px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        background: '#FFD700',
+                        color: '#000',
+                        padding: '6px 12px',
+                        borderRadius: '16px',
+                        fontSize: 'clamp(0.8rem, 2vw, 0.9rem)',
+                        fontWeight: 'bold',
+                        border: '2px solid #FFA000',
+                        fontFamily: 'Permanent Marker, cursive'
+                    }}>
+                        💡 {lang === 'de' ? 'DENKEN SIE DARAN' : 'REMEMBER'}
+                    </div>
+                    
+                    <div style={{
+                        textAlign: 'center',
+                        marginTop: '8px'
+                    }}>
+                        <p style={{
+                            color: '#fff',
+                            fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+                            fontFamily: 'Permanent Marker, cursive',
+                            margin: '0 0 8px 0',
+                            textShadow: '1px 1px 2px rgba(0,0,0,0.3)'
+                        }}>
+                            {getSituationContext(selectedSituation.id, lang)}
+                        </p>
+                        
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            gap: 'clamp(8px, 2vw, 12px)',
+                            flexWrap: 'wrap',
+                            marginTop: '12px'
+                        }}>
+                            <span style={{
+                                background: '#4CAF50',
+                                color: '#fff',
+                                padding: '4px 8px',
+                                borderRadius: '6px',
+                                fontSize: 'clamp(0.75rem, 1.8vw, 0.85rem)',
+                                fontFamily: 'Arial, sans-serif',
+                                fontWeight: 'bold'
+                            }}>
+                                {selectedSituation.grade}
+                            </span>
+                            <span style={{
+                                background: '#FF9800',
+                                color: '#fff',
+                                padding: '4px 8px',
+                                borderRadius: '6px',
+                                fontSize: 'clamp(0.75rem, 1.8vw, 0.85rem)',
+                                fontFamily: 'Arial, sans-serif',
+                                fontWeight: 'bold'
+                            }}>
+                                {selectedSituation.subject}
+                            </span>
+                            <span style={{
+                                background: '#9C27B0',
+                                color: '#fff',
+                                padding: '4px 8px',
+                                borderRadius: '6px',
+                                fontSize: 'clamp(0.75rem, 1.8vw, 0.85rem)',
+                                fontFamily: 'Arial, sans-serif',
+                                fontWeight: 'bold'
+                            }}>
+                                {selectedSituation.topic}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            )}
+            
             <div style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -370,7 +460,7 @@ export function DecisionTree({ onComplete, lang: propLang }) {
                                     }} 
                                     onClick={() => {
                                         timingService.startSurvey();
-                                        onComplete();
+                                        onComplete(selection);
                                     }}
                                 >
                                     {lang === 'de' ? 'Framework abschließen' : 'Complete Framework'}

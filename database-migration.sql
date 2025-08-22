@@ -20,8 +20,20 @@ ALTER TABLE research_data ADD COLUMN IF NOT EXISTS age_confirmation BOOLEAN;
 -- 4. Neue Fragebogen-Spalten hinzufügen
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS planning_frequency TEXT;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS traffic_source TEXT;
+-- Situation tracking columns
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS selected_situation_id TEXT;
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS framework_path_taken JSONB;
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS path_matches_situation BOOLEAN;
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS path_match_details JSONB;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS likert_responses JSONB;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS open_responses JSONB;
+
+-- Session tracking columns for duplicate detection
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS session_token TEXT;
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS submission_count INTEGER DEFAULT 1;
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS is_repeated_submission BOOLEAN DEFAULT FALSE;
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS session_duration_minutes INTEGER;
+ALTER TABLE research_data ADD COLUMN IF NOT EXISTS browser_info JSONB;
 
 -- 5. Zeit-basierte Qualitätskontrolle Spalten hinzufügen (robusteres Format)
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_total_minutes DECIMAL(10,2);
@@ -31,7 +43,7 @@ ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_survey_minute
 -- 4. interview_contact Spalte ist bereits vorhanden, prüfen
 -- ALTER TABLE research_data ADD COLUMN IF NOT EXISTS interview_contact TEXT;
 
--- 6. Neue Analysis View erstellen (ohne Kontaktdaten, mit Zeit-Daten)
+-- 6. Neue Analysis View erstellen (ohne Kontaktdaten, mit Zeit-Daten und Session-Tracking)
 CREATE VIEW analysis_view AS
 SELECT
     age_confirmation,
@@ -53,6 +65,15 @@ SELECT
     completion_time_total_minutes,
     completion_time_framework_minutes,
     completion_time_survey_minutes,
+    selected_situation_id,
+    framework_path_taken,
+    path_matches_situation,
+    path_match_details,
+    session_token,
+    submission_count,
+    is_repeated_submission,
+    session_duration_minutes,
+    browser_info,
     completed_at,
     created_at
 FROM research_data
@@ -81,8 +102,26 @@ FROM research_data
 WHERE completion_time_total_minutes IS NOT NULL
 ORDER BY created_at;
 
--- 9. Erfolgreiche Migration bestätigen
-SELECT 'Zeit-basierte Qualitätskontrolle erfolgreich eingerichtet!' as status;
+-- 9. Session-Analyse View für Duplicate Detection
+CREATE VIEW session_analysis AS
+SELECT
+    session_token,
+    COUNT(*) as total_submissions,
+    MIN(created_at) as first_submission,
+    MAX(created_at) as last_submission,
+    MAX(submission_count) as highest_submission_count,
+    BOOL_OR(is_repeated_submission) as has_repeated_submissions,
+    AVG(completion_time_total_minutes) as avg_completion_time,
+    STRING_AGG(DISTINCT participant_id, ', ') as participant_ids,
+    STRING_AGG(DISTINCT selected_situation_id, ', ') as situations_used
+FROM research_data 
+WHERE session_token IS NOT NULL
+GROUP BY session_token
+HAVING COUNT(*) > 1
+ORDER BY total_submissions DESC, first_submission DESC;
+
+-- 10. Erfolgreiche Migration bestätigen
+SELECT 'Session-Tracking und Situation-System erfolgreich eingerichtet!' as status;
 
 -- 10. Prüfen der neuen Struktur
 SELECT column_name, data_type, is_nullable
