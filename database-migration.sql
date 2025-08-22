@@ -14,8 +14,12 @@ DROP VIEW IF EXISTS interview_contacts_view;
 ALTER TABLE research_data DROP COLUMN IF EXISTS age;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS age_confirmation BOOLEAN;
 
--- 3. Neue Consent-Spalten hinzufügen
--- Interview-related columns removed
+-- 3. Interview-related columns vollständig entfernen
+ALTER TABLE research_data DROP COLUMN IF EXISTS consent_interview;
+ALTER TABLE research_data DROP COLUMN IF EXISTS consent_recording;  
+ALTER TABLE research_data DROP COLUMN IF EXISTS consent_transcription;
+ALTER TABLE research_data DROP COLUMN IF EXISTS consent_quotes;
+ALTER TABLE research_data DROP COLUMN IF EXISTS interview_contact;
 
 -- 4. Neue Fragebogen-Spalten hinzufügen
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS planning_frequency TEXT;
@@ -40,8 +44,7 @@ ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_total_minutes
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_framework_minutes DECIMAL(10,2);
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_survey_minutes DECIMAL(10,2);
 
--- 4. interview_contact Spalte ist bereits vorhanden, prüfen
--- ALTER TABLE research_data ADD COLUMN IF NOT EXISTS interview_contact TEXT;
+-- Interview-Felder wurden bereits oben entfernt
 
 -- 6. Neue Analysis View erstellen (ohne Kontaktdaten, mit Zeit-Daten und Session-Tracking)
 CREATE VIEW analysis_view AS

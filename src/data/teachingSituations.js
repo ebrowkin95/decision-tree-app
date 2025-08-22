@@ -68,7 +68,7 @@ export const teachingSituations = {
                 expectedPath: {
                     dimension: 'faktisch',    // Historical facts and sources
                     process: 'analysieren',   // Analyzing historical sources
-                    medientyp: 'textbasiert'  // Text-based historical sources
+                    medientyp: 'datenbasiert'  // Data-based analysis tools
                 }
             }
         ]
@@ -82,18 +82,18 @@ export const teachingSituations = {
         situations: [
             {
                 id: 'grade3_math',
-                title: 'Grade 3 - Mathematics: Times Tables',
-                grade: 'Grade 3',
+                title: '3rd Grade - Mathematics: Times Tables',
+                grade: '3rd Grade',
                 subject: 'Mathematics',
                 topic: 'Times Tables',
-                context: 'your Grade 3 class learning times tables',
+                context: 'your 3rd grade class learning times tables',
                 description: [
-                    'You are teaching a Grade 3 class in Mathematics.',
+                    'You are teaching a 3rd grade class in Mathematics.',
                     'Topic: Introducing and practicing times tables (multiplication)',
                     'Goal: Students should understand and automatize multiplication facts',
                     'Challenge: Different learning speeds and abstraction levels'
                 ],
-                detailedContext: 'Think about your Grade 3 class learning times tables',
+                detailedContext: 'Think about your 3rd grade class learning times tables',
                 expectedPath: {
                     dimension: 'prozedural',
                     process: 'anwenden',
@@ -102,18 +102,18 @@ export const teachingSituations = {
             },
             {
                 id: 'grade8_science', 
-                title: 'Grade 8 - Biology: Photosynthesis',
-                grade: 'Grade 8',
+                title: 'Middle School - Biology: Photosynthesis',
+                grade: 'Middle School',
                 subject: 'Biology',
                 topic: 'Photosynthesis',
-                context: 'your Grade 8 class studying photosynthesis',
+                context: 'your middle school biology class studying photosynthesis',
                 description: [
-                    'You are teaching a Grade 8 class in Biology.',
+                    'You are teaching a middle school class in Biology.',
                     'Topic: Understanding the process of photosynthesis',
                     'Goal: Students should comprehend this complex biological process',
                     'Challenge: Visualizing abstract biochemical processes'
                 ],
-                detailedContext: 'Think about your Grade 8 class studying photosynthesis',
+                detailedContext: 'Think about your middle school biology class studying photosynthesis',
                 expectedPath: {
                     dimension: 'konzeptionell',
                     process: 'verstehen',
@@ -122,22 +122,22 @@ export const teachingSituations = {
             },
             {
                 id: 'grade11_history',
-                title: 'Grade 11 - History: Weimar Republic',
-                grade: 'Grade 11',
+                title: 'High School - History: Weimar Republic',
+                grade: 'High School',
                 subject: 'History', 
                 topic: 'Weimar Republic',
-                context: 'your Grade 11 class analyzing the Weimar Republic',
+                context: 'your high school history class analyzing the Weimar Republic',
                 description: [
-                    'You are teaching a Grade 11 class in History.',
+                    'You are teaching a high school class in History.',
                     'Topic: Critically analyzing the Weimar Republic',
                     'Goal: Evaluate historical sources and judge political developments',
                     'Challenge: Complex political relationships and source criticism'
                 ],
-                detailedContext: 'Think about your Grade 11 class analyzing the Weimar Republic',
+                detailedContext: 'Think about your high school history class analyzing the Weimar Republic',
                 expectedPath: {
                     dimension: 'faktisch',
                     process: 'analysieren',
-                    medientyp: 'textbasiert'
+                    medientyp: 'datenbasiert'
                 }
             }
         ]

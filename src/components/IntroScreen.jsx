@@ -115,9 +115,9 @@ const TutorialModal = ({ onClose, lang }) => {
                         '• Passenden Interaktivitätsgrad',
                         '',
                         '💡 **Beispiel-Empfehlungen:**',
-                        '• **Einmaleins**: Interaktive Übungsapps, Lernspiele',
-                        '• **Photosynthese**: Animationsvideos, 3D-Modelle',
-                        '• **Weimarer Republik**: Digitale Quellensammlungen, Timeline-Tools',
+                        '• **Einmaleins**: Virtuelle Labore, Moodle-Tests, Simulationsumgebungen',
+                        '• **Photosynthese**: Modellgrafiken, Systemübersichten',
+                        '• **Weimarer Republik**: Excel-Datenvergleich, Interaktive Statistiken',
                         '',
                         '✅ **Ihr Vorteil**: Evidenzbasierte Auswahl statt trial-and-error!'
                     ]
@@ -136,15 +136,15 @@ const TutorialModal = ({ onClose, lang }) => {
                     content: [
                         'Select a concrete teaching situation from three options:',
                         '',
-                        '🧮 **Grade 3 Mathematics - Times Tables**',
+                        '🧮 **3rd Grade Mathematics - Times Tables**',
                         '  → Elementary students learning multiplication',
                         '  → Different learning speeds and levels',
                         '',
-                        '🔬 **Grade 8 Biology - Photosynthesis**',
+                        '🔬 **Middle School Biology - Photosynthesis**',
                         '  → Understanding complex biological processes',
                         '  → Visualizing abstract mechanisms',
                         '',
-                        '📚 **Grade 11 History - Weimar Republic**',
+                        '📚 **High School History - Weimar Republic**',
                         '  → Critically analyzing historical sources',
                         '  → Evaluating political contexts',
                         '',
@@ -237,9 +237,9 @@ const TutorialModal = ({ onClose, lang }) => {
                         '• Appropriate level of interactivity',
                         '',
                         '💡 **Example recommendations:**',
-                        '• **Times Tables**: Interactive practice apps, learning games',
-                        '• **Photosynthesis**: Animation videos, 3D models',
-                        '• **Weimar Republic**: Digital source collections, timeline tools',
+                        '• **Times Tables**: Virtual labs, Moodle tests, simulation environments',
+                        '• **Photosynthesis**: Model graphics, system overviews',
+                        '• **Weimar Republic**: Excel data comparison, interactive statistics',
                         '',
                         '✅ **Your advantage**: Evidence-based selection instead of trial-and-error!'
                     ]
@@ -372,22 +372,79 @@ const TutorialModal = ({ onClose, lang }) => {
                             if (line === '') {
                                 return <br key={index} />;
                             }
-                            if (line.startsWith('• **') && line.includes('**:')) {
+                            
+                            // Enhanced markdown parsing function
+                            const parseMarkdown = (text) => {
+                                const parts = [];
+                                let currentIndex = 0;
+                                
+                                // Find all **text** patterns
+                                const boldPattern = /\*\*(.*?)\*\*/g;
+                                let match;
+                                
+                                while ((match = boldPattern.exec(text)) !== null) {
+                                    // Add text before the bold part
+                                    if (match.index > currentIndex) {
+                                        parts.push(text.substring(currentIndex, match.index));
+                                    }
+                                    
+                                    // Add the bold part
+                                    parts.push(<strong key={`bold-${match.index}`} style={{ fontWeight: 'bold' }}>{match[1]}</strong>);
+                                    
+                                    currentIndex = match.index + match[0].length;
+                                }
+                                
+                                // Add remaining text
+                                if (currentIndex < text.length) {
+                                    parts.push(text.substring(currentIndex));
+                                }
+                                
+                                return parts.length > 0 ? parts : text;
+                            };
+                            
+                            // Special cases first
+                            if (line.startsWith('🎯 **') && line.includes('**:')) {
                                 const [boldPart, normalPart] = line.split('**:');
                                 return (
                                     <p key={index} style={{
-                                        color: '#fff',
+                                        color: '#4CAF50',
                                         fontSize: '1rem',
-                                        margin: '10px 0',
-                                        paddingLeft: '10px'
+                                        margin: '15px 0',
+                                        fontWeight: 'bold'
                                     }}>
-                                        <strong style={{ color: '#4CAF50' }}>
-                                            {boldPart.replace('• **', '• ')}:
-                                        </strong>
-                                        {normalPart}
+                                        {boldPart.replace('**', '')}:{normalPart}
                                     </p>
                                 );
                             }
+                            
+                            if (line.startsWith('💡 **') && line.includes('**:')) {
+                                const [boldPart, normalPart] = line.split('**:');
+                                return (
+                                    <p key={index} style={{
+                                        color: '#FFD700',
+                                        fontSize: '1rem',
+                                        margin: '15px 0',
+                                        fontWeight: 'bold'
+                                    }}>
+                                        {boldPart.replace('**', '')}:{normalPart}
+                                    </p>
+                                );
+                            }
+                            
+                            if (line.startsWith('✅ **') && line.includes('**:')) {
+                                const [boldPart, normalPart] = line.split('**:');
+                                return (
+                                    <p key={index} style={{
+                                        color: '#4CAF50',
+                                        fontSize: '1rem',
+                                        margin: '15px 0',
+                                        fontWeight: 'bold'
+                                    }}>
+                                        {boldPart.replace('**', '')}:{normalPart}
+                                    </p>
+                                );
+                            }
+                            
                             if (line.startsWith('⚠️ **') && line.includes('**:')) {
                                 const [boldPart, normalPart] = line.split('**:');
                                 return (
@@ -407,7 +464,23 @@ const TutorialModal = ({ onClose, lang }) => {
                                     </p>
                                 );
                             }
-                            if (line.startsWith('• ') && !line.includes('**')) {
+                            
+                            // List items with emoji prefixes
+                            if (line.match(/^[🧮🔬📚🧠💡🔧🔍⚡📋🧩⚙️🎯📝🖼️🎧📺🎮📊] \*\*/)) {
+                                return (
+                                    <p key={index} style={{
+                                        color: '#fff',
+                                        fontSize: '1rem',
+                                        margin: '12px 0',
+                                        paddingLeft: '10px'
+                                    }}>
+                                        {parseMarkdown(line)}
+                                    </p>
+                                );
+                            }
+                            
+                            // Regular bullet points
+                            if (line.startsWith('• ')) {
                                 return (
                                     <p key={index} style={{
                                         color: '#fff',
@@ -416,7 +489,7 @@ const TutorialModal = ({ onClose, lang }) => {
                                         paddingLeft: '10px'
                                     }}>
                                         <span style={{ color: '#4CAF50', fontWeight: 'bold' }}>•</span>
-                                        {line.substring(1)}
+                                        {parseMarkdown(line.substring(1))}
                                     </p>
                                 );
                             }
@@ -429,17 +502,19 @@ const TutorialModal = ({ onClose, lang }) => {
                                         paddingLeft: '30px',
                                         fontStyle: 'italic'
                                     }}>
-                                        {line}
+                                        {parseMarkdown(line)}
                                     </p>
                                 );
                             }
+                            
+                            // Default case - parse markdown
                             return (
                                 <p key={index} style={{
                                     color: '#fff',
                                     fontSize: '1rem',
                                     margin: '10px 0'
                                 }}>
-                                    {line}
+                                    {parseMarkdown(line)}
                                 </p>
                             );
                         })}
