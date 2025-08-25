@@ -39,6 +39,10 @@ ALTER TABLE research_data ADD COLUMN IF NOT EXISTS is_repeated_submission BOOLEA
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS session_duration_minutes INTEGER;
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS browser_info JSONB;
 
+-- Email-related fields should not be in research_data (moved to contact_data)
+-- Remove email if it exists in research_data to ensure separation
+ALTER TABLE research_data DROP COLUMN IF EXISTS email;
+
 -- 5. Zeit-basierte Qualitätskontrolle Spalten hinzufügen (robusteres Format)
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_total_minutes DECIMAL(10,2);
 ALTER TABLE research_data ADD COLUMN IF NOT EXISTS completion_time_framework_minutes DECIMAL(10,2);
@@ -123,8 +127,20 @@ GROUP BY session_token
 HAVING COUNT(*) > 1
 ORDER BY total_submissions DESC, first_submission DESC;
 
--- 10. Erfolgreiche Migration bestätigen
-SELECT 'Session-Tracking und Situation-System erfolgreich eingerichtet!' as status;
+-- 10. Contact-Tabelle für getrennte E-Mail-Speicherung
+CREATE TABLE IF NOT EXISTS contact_data (
+    id SERIAL PRIMARY KEY,
+    participant_id TEXT NOT NULL,
+    email TEXT,
+    consent_results_contact BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Index for efficient lookup
+CREATE INDEX IF NOT EXISTS idx_contact_participant_id ON contact_data(participant_id);
+
+-- 11. Erfolgreiche Migration bestätigen
+SELECT 'Session-Tracking, Situation-System und getrennte E-Mail-Speicherung erfolgreich eingerichtet!' as status;
 
 -- 10. Prüfen der neuen Struktur
 SELECT column_name, data_type, is_nullable

@@ -12,63 +12,63 @@ export const teachingSituations = {
         situations: [
             {
                 id: 'grade3_math',
-                title: '3. Klasse - Mathematik: Einmaleins',
+                title: '3. Klasse - Mathematik: Geometrische Formen',
                 grade: '3. Klasse',
                 subject: 'Mathematik',
-                topic: 'Einmaleins',
-                context: 'Ihre 3. Klasse beim Einmaleins',
+                topic: 'Geometrische Formen',
+                context: 'Ihre 3. Klasse bei geometrischen Formen',
                 description: [
                     'Sie unterrichten eine 3. Klasse in Mathematik.',
-                    'Thema: Das kleine Einmaleins (1x1) einführen und üben',
-                    'Ziel: Die Schüler sollen die Einmaleins-Reihen verstehen und automatisieren',
-                    'Herausforderung: Unterschiedliche Lerngeschwindigkeiten und Abstraktionsniveau'
+                    'Thema: Grundlegende geometrische Formen erkennen und verstehen',
+                    'Ziel: Schüler:innen sollen Eigenschaften von Formen verstehen und in ihrer Umgebung identifizieren',
+                    'Herausforderung: Abstrakte geometrische Konzepte kindgerecht vermitteln'
                 ],
-                detailedContext: 'Denken Sie an Ihre 3. Klasse beim Einmaleins',
+                detailedContext: 'Denken Sie an Ihre 3. Klasse bei geometrischen Formen',
                 // Expected framework path based on situation
                 expectedPath: {
-                    dimension: 'prozedural', // Learning multiplication procedures
-                    process: 'anwenden',      // Applying multiplication facts
-                    medientyp: 'interaktiv'   // Interactive tools for practice
-                }
-            },
-            {
-                id: 'grade8_science',
-                title: '8. Klasse - Biologie: Photosynthese',
-                grade: '8. Klasse',
-                subject: 'Biologie',
-                topic: 'Photosynthese',
-                context: 'Ihre 8. Klasse bei der Photosynthese',
-                description: [
-                    'Sie unterrichten eine 8. Klasse in Biologie.',
-                    'Thema: Den Prozess der Photosynthese verstehen',
-                    'Ziel: Schüler sollen den komplexen biologischen Prozess begreifen',
-                    'Herausforderung: Abstrakte biochemische Vorgänge veranschaulichen'
-                ],
-                detailedContext: 'Denken Sie an Ihre 8. Klasse bei der Photosynthese',
-                expectedPath: {
-                    dimension: 'konzeptionell', // Understanding biological concepts
-                    process: 'verstehen',       // Understanding the process
+                    dimension: 'konzeptionell', // Understanding geometric concepts
+                    process: 'verstehen',       // Understanding properties and relationships
                     medientyp: 'visuell'        // Visual representations needed
                 }
             },
             {
+                id: 'grade8_science',
+                title: '8. Klasse - Chemie: Chemische Reaktionen',
+                grade: '8. Klasse',
+                subject: 'Chemie',
+                topic: 'Chemische Reaktionen',
+                context: 'Ihre 8. Klasse bei chemischen Reaktionen',
+                description: [
+                    'Sie unterrichten eine 8. Klasse in Chemie.',
+                    'Thema: Chemische Reaktionen durchführen und dokumentieren',
+                    'Ziel: Schüler:innen sollen Versuchsabläufe beherrschen und Schlussfolgerungen ziehen',
+                    'Herausforderung: Praktische Fertigkeiten mit theoretischem Verständnis verbinden'
+                ],
+                detailedContext: 'Denken Sie an Ihre 8. Klasse bei chemischen Reaktionen',
+                expectedPath: {
+                    dimension: 'prozedural',   // Learning experimental procedures
+                    process: 'anwenden',       // Applying experimental methods
+                    medientyp: 'interaktiv'    // Interactive simulations and virtual labs
+                }
+            },
+            {
                 id: 'grade11_history',
-                title: '11. Klasse - Geschichte: Weimarer Republik',
+                title: '11. Klasse - Geschichte: Historische Quellenanalyse',
                 grade: '11. Klasse', 
                 subject: 'Geschichte',
-                topic: 'Weimarer Republik',
-                context: 'Ihre 11. Klasse zur Weimarer Republik',
+                topic: 'Historische Quellenanalyse',
+                context: 'Ihre 11. Klasse zur historischen Quellenanalyse',
                 description: [
                     'Sie unterrichten eine 11. Klasse in Geschichte.',
-                    'Thema: Die Weimarer Republik kritisch analysieren',
-                    'Ziel: Historische Quellen bewerten und politische Entwicklungen beurteilen',
-                    'Herausforderung: Komplexe politische Zusammenhänge und Quellenkritik'
+                    'Thema: Verschiedene historische Quellen analysieren und bewerten',
+                    'Ziel: Schüler:innen sollen Glaubwürdigkeit bewerten und eigene Interpretationen entwickeln',
+                    'Herausforderung: Kritisches Denken und Quellenkritik systematisch vermitteln'
                 ],
-                detailedContext: 'Denken Sie an Ihre 11. Klasse zur Weimarer Republik',
+                detailedContext: 'Denken Sie an Ihre 11. Klasse zur historischen Quellenanalyse',
                 expectedPath: {
-                    dimension: 'faktisch',    // Historical facts and sources
-                    process: 'analysieren',   // Analyzing historical sources
-                    medientyp: 'datenbasiert'  // Data-based analysis tools
+                    dimension: 'konzeptionell', // Understanding source analysis concepts
+                    process: 'evaluieren',      // Evaluating source credibility
+                    medientyp: 'textbasiert'    // Text-based sources and analysis
                 }
             }
         ]
@@ -82,38 +82,18 @@ export const teachingSituations = {
         situations: [
             {
                 id: 'grade3_math',
-                title: '3rd Grade - Mathematics: Times Tables',
+                title: '3rd Grade - Mathematics: Geometric Shapes',
                 grade: '3rd Grade',
                 subject: 'Mathematics',
-                topic: 'Times Tables',
-                context: 'your 3rd grade class learning times tables',
+                topic: 'Geometric Shapes',
+                context: 'your 3rd grade class learning geometric shapes',
                 description: [
                     'You are teaching a 3rd grade class in Mathematics.',
-                    'Topic: Introducing and practicing times tables (multiplication)',
-                    'Goal: Students should understand and automatize multiplication facts',
-                    'Challenge: Different learning speeds and abstraction levels'
+                    'Topic: Recognizing and understanding basic geometric shapes',
+                    'Goal: Students should understand shape properties and identify them in their environment',
+                    'Challenge: Making abstract geometric concepts accessible to children'
                 ],
-                detailedContext: 'Think about your 3rd grade class learning times tables',
-                expectedPath: {
-                    dimension: 'prozedural',
-                    process: 'anwenden',
-                    medientyp: 'interaktiv'
-                }
-            },
-            {
-                id: 'grade8_science', 
-                title: 'Middle School - Biology: Photosynthesis',
-                grade: 'Middle School',
-                subject: 'Biology',
-                topic: 'Photosynthesis',
-                context: 'your middle school biology class studying photosynthesis',
-                description: [
-                    'You are teaching a middle school class in Biology.',
-                    'Topic: Understanding the process of photosynthesis',
-                    'Goal: Students should comprehend this complex biological process',
-                    'Challenge: Visualizing abstract biochemical processes'
-                ],
-                detailedContext: 'Think about your middle school biology class studying photosynthesis',
+                detailedContext: 'Think about your 3rd grade class learning geometric shapes',
                 expectedPath: {
                     dimension: 'konzeptionell',
                     process: 'verstehen',
@@ -121,23 +101,43 @@ export const teachingSituations = {
                 }
             },
             {
+                id: 'grade8_science', 
+                title: 'Middle School - Chemistry: Chemical Reactions',
+                grade: 'Middle School',
+                subject: 'Chemistry',
+                topic: 'Chemical Reactions',
+                context: 'your middle school chemistry class studying chemical reactions',
+                description: [
+                    'You are teaching a middle school class in Chemistry.',
+                    'Topic: Conducting and documenting chemical reactions',
+                    'Goal: Students should master experimental procedures and draw conclusions',
+                    'Challenge: Connecting practical skills with theoretical understanding'
+                ],
+                detailedContext: 'Think about your middle school chemistry class studying chemical reactions',
+                expectedPath: {
+                    dimension: 'prozedural',
+                    process: 'anwenden',
+                    medientyp: 'interaktiv'
+                }
+            },
+            {
                 id: 'grade11_history',
-                title: 'High School - History: Weimar Republic',
+                title: 'High School - History: Historical Source Analysis',
                 grade: 'High School',
                 subject: 'History', 
-                topic: 'Weimar Republic',
-                context: 'your high school history class analyzing the Weimar Republic',
+                topic: 'Historical Source Analysis',
+                context: 'your high school history class analyzing historical sources',
                 description: [
                     'You are teaching a high school class in History.',
-                    'Topic: Critically analyzing the Weimar Republic',
-                    'Goal: Evaluate historical sources and judge political developments',
-                    'Challenge: Complex political relationships and source criticism'
+                    'Topic: Analyzing and evaluating various historical sources',
+                    'Goal: Students should assess credibility and develop their own founded interpretations',
+                    'Challenge: Teaching systematic critical thinking and source criticism'
                 ],
-                detailedContext: 'Think about your high school history class analyzing the Weimar Republic',
+                detailedContext: 'Think about your high school history class analyzing historical sources',
                 expectedPath: {
-                    dimension: 'faktisch',
-                    process: 'analysieren',
-                    medientyp: 'datenbasiert'
+                    dimension: 'konzeptionell',
+                    process: 'evaluieren',
+                    medientyp: 'textbasiert'
                 }
             }
         ]

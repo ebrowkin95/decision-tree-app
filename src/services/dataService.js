@@ -88,12 +88,12 @@ export const submitStudyData = async (data) => {
 
     console.log('Research data inserted successfully:', researchResult);
 
-    // Store contact data separately if provided
-    if (email && email.trim()) {
+    // Store contact data separately if provided AND consent given
+    if (email && email.trim() && participantData.consentResultsContact) {
       const contactData = {
         participant_id: participantId,
         email: email.trim(),
-        consent_contact: participantData.consentContact || false,
+        consent_results_contact: participantData.consentResultsContact || false,
       };
 
       console.log('Inserting contact data:', contactData);

@@ -118,13 +118,13 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
         // Traffic source tracking
         trafficSource: '',
         
-        // Contact (optional)
+        // Email (only for results contact)
         email: '',
         
         // Consent
         consentParticipation: false,
         consentDataProcessing: false,
-        consentContact: false
+        consentResultsContact: false
     });
 
     const [errors, setErrors] = useState({});
@@ -163,27 +163,32 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             planningFrequency: 'Wie oft planen Sie Unterricht mit digitalen Medien?',
             planningFrequencyRequired: 'Bitte wählen Sie Ihre Planungsfrequenz',
             
-            contactSection: 'Kontakt (freiwillig)',
-            email: 'E-Mail-Adresse (für Ergebnisse und Gutschein)',
-            emailNotice: 'Ihre E-Mail wird getrennt gespeichert und nur für Terminvereinbarung/Ergebnisübermittlung und Gutschein-Zusendung verwendet. Automatische Löschung nach 6 Monaten.',
             
-            dataProtectionSection: 'Datenschutzhinweise',
-            responsibleInstitution: 'Verantwortliche Stelle',
-            institutionDetails: 'Georg-August-Universität Göttingen, Wilhelmsplatz 1, 37073 Göttingen',
-            studyContact: 'Studienkontakt: eduard.browkin@stud.uni-goettingen.de',
-            purpose: 'Zweck: Evaluation eines Frameworks zur Auswahl digitaler Medien im Unterricht (Bachelorarbeit)',
-            legalBasis: 'Rechtsgrundlage: Einwilligung nach Art. 6(1)(a) DSGVO',
-            dataRetention: 'Speicherfristen: Kontaktdaten und Aufzeichnungen werden spätestens 6 Monate nach Benotung gelöscht',
-            rights: 'Ihre Rechte: Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Widerspruch, Datenübertragbarkeit',
-            thirdParties: 'Plattformen/Drittland: Hosting (Netlify), Datenbank (Supabase), mögliche Verarbeitung in den USA',
-            withdrawal: 'Widerruf jederzeit mit Wirkung für die Zukunft per E-Mail an eduard.browkin@stud.uni-goettingen.de möglich',
             
-            consentSection: 'Einverständniserklärung',
-            consentParticipation: 'Ich bin damit einverstanden, an dieser Studie teilzunehmen und das Framework zu bewerten.',
-            consentDataProcessing: 'Ich stimme der anonymisierten Datenverarbeitung für wissenschaftliche Zwecke zu.',
-            consentContact: 'Ich bin damit einverstanden, dass meine E-Mail-Adresse für die Zusendung der Studienergebnisse gespeichert wird (optional).',
-            
-            consentRequired: 'Zustimmung zur Teilnahme und Datenverarbeitung erforderlich',
+            privacyTitle: 'Datenschutzhinweise zur Studienteilnahme',
+            studyInfo: 'Studieninformation',
+            studyInfoText: 'Diese Erhebung erfolgt im Rahmen einer Bachelorarbeit an der Georg-August-Universität Göttingen zur Evaluation eines Frameworks für die Auswahl digitaler Unterrichtsmedien.',
+            responsible: 'Verantwortlich',
+            responsibleText: 'Georg-August-Universität Göttingen\nWilhelmsplatz 1, 37073 Göttingen\nStudienkontakt: eduard.browkin@stud.uni-goettingen.de',
+            dataProcessing: 'Datenerhebung und -verarbeitung',
+            dataProcessingItems: [
+                '**Art der Daten**: Ausschließlich Umfragedaten (Antworten, Zeitstempel)',
+                '**Anonymität**: Vollständig anonym, keine IP-Speicherung',
+                '**Zweck**: Wissenschaftliche Auswertung für Bachelorarbeit',
+                '**Rechtsgrundlage**: Einwilligung (Art. 6 Abs. 1 lit. a DSGVO)',
+                '**Speicherdauer**: 6 Monate nach Benotung, dann Löschung',
+                '**Speicherort**: Supabase (EU/USA), Netlify (USA) - EU-Standardvertragsklauseln'
+            ],
+            rightsTitle: 'Ihre Rechte',
+            rightsText: 'Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung und Widerspruch. Da die Daten anonym erhoben werden, ist eine nachträgliche Zuordnung jedoch nicht möglich.',
+            voluntaryTitle: 'Freiwilligkeit',
+            voluntaryText: 'Die Teilnahme ist freiwillig und kann jederzeit abgebrochen werden.',
+            consentParticipation: 'Ich wurde über Zweck und Ablauf der Studie informiert und nehme freiwillig teil.',
+            consentDataProcessing: 'Ich habe die Datenschutzhinweise gelesen und willige in die anonyme Datenverarbeitung ein. [PFLICHT]',
+            consentResultsContact: 'Ich möchte über die Studienergebnisse informiert werden:',
+            email: 'E-Mail (optional):',
+            emailNote: '(wird getrennt von Umfragedaten gespeichert)',
+            consentRequired: 'Zustimmung zur Teilnahme und Datenschutz erforderlich',
             
             countries: {
                 // Europa
@@ -282,27 +287,31 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
             planningFrequency: 'How often do you plan lessons with digital media?',
             planningFrequencyRequired: 'Please select your planning frequency',
             
-            contactSection: 'Contact (optional)',
-            email: 'Email Address (for results and voucher)',
-            emailNotice: 'Your email will be stored separately and only used for appointment scheduling/result transmission and voucher delivery. Automatic deletion after 6 months.',
             
-            dataProtectionSection: 'Data Protection Information',
-            responsibleInstitution: 'Responsible Institution',
-            institutionDetails: 'Georg-August-Universität Göttingen, Wilhelmsplatz 1, 37073 Göttingen, Germany',
-            studyContact: 'Study contact: eduard.browkin@stud.uni-goettingen.de',
-            purpose: 'Purpose: Evaluation of a framework for digital media selection in education (Bachelor\'s thesis)',
-            legalBasis: 'Legal basis: Consent according to Art. 6(1)(a) GDPR',
-            dataRetention: 'Data retention: Contact data and recordings will be deleted at the latest 6 months after grading',
-            rights: 'Your rights: Access, rectification, deletion, restriction of processing, objection, data portability',
-            thirdParties: 'Platforms/Third countries: Hosting (Netlify), Database (Supabase), possible processing in the USA',
-            withdrawal: 'Withdrawal possible at any time with effect for the future by email to eduard.browkin@stud.uni-goettingen.de',
-            
-            consentSection: 'Consent',
-            consentParticipation: 'I agree to participate in this study and evaluate the framework.',
-            consentDataProcessing: 'I consent to anonymized data processing for scientific purposes.',
-            consentContact: 'I agree that my email address may be stored for sending study results (optional).',
-            
-            consentRequired: 'Consent for participation and data processing required',
+            privacyTitle: 'Privacy Notice for Study Participation',
+            studyInfo: 'Study Information',
+            studyInfoText: 'This survey is conducted as part of a Bachelor\'s thesis at Georg-August-Universität Göttingen to evaluate a framework for selecting digital educational media.',
+            responsible: 'Responsible',
+            responsibleText: 'Georg-August-Universität Göttingen\nWilhelmsplatz 1, 37073 Göttingen, Germany\nStudy contact: eduard.browkin@stud.uni-goettingen.de',
+            dataProcessing: 'Data Collection and Processing',
+            dataProcessingItems: [
+                '**Type of data**: Survey data only (responses, timestamps)',
+                '**Anonymity**: Completely anonymous, no IP storage',
+                '**Purpose**: Scientific evaluation for Bachelor\'s thesis',
+                '**Legal basis**: Consent (Art. 6(1)(a) GDPR)',
+                '**Storage duration**: 6 months after grading, then deletion',
+                '**Storage location**: Supabase (EU/USA), Netlify (USA) - EU Standard Contractual Clauses'
+            ],
+            rightsTitle: 'Your Rights',
+            rightsText: 'You have the right to access, rectify, delete, restrict, and object. Since data is collected anonymously, subsequent identification is not possible.',
+            voluntaryTitle: 'Voluntary Participation',
+            voluntaryText: 'Participation is voluntary and can be discontinued at any time.',
+            consentParticipation: 'I have been informed about the purpose and procedure of the study and participate voluntarily.',
+            consentDataProcessing: 'I have read the privacy notice and consent to anonymous data processing. [REQUIRED]',
+            consentResultsContact: 'I would like to be informed about the study results:',
+            email: 'Email (optional):',
+            emailNote: '(stored separately from survey data)',
+            consentRequired: 'Consent for participation and privacy required',
             
             countries: {
                 // Europe
@@ -394,6 +403,11 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
 
         if (!formData.consentParticipation || !formData.consentDataProcessing) {
             newErrors.consent = t.consentRequired;
+        }
+        
+        // Email validation only if results contact is checked
+        if (formData.consentResultsContact && (!formData.email || !formData.email.includes('@'))) {
+            newErrors.email = lang === 'de' ? 'Gültige E-Mail-Adresse erforderlich' : 'Valid email address required';
         }
 
         setErrors(newErrors);
@@ -606,107 +620,138 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                         {errors.planningFrequency && <div style={errorStyle}>{errors.planningFrequency}</div>}
                     </div>
 
-                    {/* Contact Section */}
-                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginTop: 'clamp(25px, 5vw, 40px)', marginBottom: 'clamp(15px, 3vw, 20px)' }}>
-                        {t.contactSection}
-                    </h2>
 
-                    <div style={fieldStyle}>
-                        <label style={labelStyle}>{t.email}</label>
-                        <input
-                            type="email"
-                            style={inputStyle}
-                            value={formData.email}
-                            onChange={(e) => handleInputChange('email', e.target.value)}
-                            placeholder={lang === 'de' ? 'ihre.email@beispiel.de' : 'your.email@example.com'}
-                        />
-                        <p style={{
-                            color: '#ccc',
-                            fontSize: '0.85rem',
-                            marginTop: '8px',
-                            fontFamily: 'Arial, sans-serif',
-                            fontStyle: 'italic'
-                        }}>
-                            {t.emailNotice}
-                        </p>
-                    </div>
 
-                    {/* Data Protection Section */}
-                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginTop: 'clamp(25px, 5vw, 40px)', marginBottom: 'clamp(15px, 3vw, 20px)' }}>
-                        {t.dataProtectionSection}
-                    </h2>
-                    
+                    {/* Privacy Notice Section */}
                     <div style={{
-                        background: '#222',
-                        padding: 'clamp(15px, 3vw, 20px)',
-                        borderRadius: 'clamp(8px, 2vw, 12px)',
-                        border: 'clamp(1px, 0.3vw, 2px) solid #333',
+                        background: '#2A2A2A',
+                        border: '2px solid #4CAF50',
+                        borderRadius: 'clamp(12px, 3vw, 16px)',
+                        padding: 'clamp(20px, 4vw, 30px)',
+                        marginTop: 'clamp(25px, 5vw, 40px)',
                         marginBottom: 'clamp(20px, 4vw, 30px)'
                     }}>
-                        <div style={{ marginBottom: '15px' }}>
+                        <h2 style={{
+                            color: '#4CAF50',
+                            fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)',
+                            marginBottom: 'clamp(15px, 3vw, 20px)',
+                            fontFamily: 'Permanent Marker, cursive',
+                            textAlign: 'center'
+                        }}>
+                            {t.privacyTitle}
+                        </h2>
+
+                        {/* Study Information */}
+                        <div style={{ marginBottom: 'clamp(15px, 3vw, 20px)' }}>
                             <h3 style={{
-                                color: '#4CAF50',
-                                fontSize: 'clamp(1rem, 2.3vw, 1.1rem)',
-                                marginBottom: 'clamp(4px, 1vw, 5px)',
+                                color: '#fff',
+                                fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)',
+                                marginBottom: 'clamp(8px, 2vw, 10px)',
                                 fontFamily: 'Permanent Marker, cursive'
                             }}>
-                                {t.responsibleInstitution}
+                                {t.studyInfo}
                             </h3>
                             <p style={{
-                                color: '#fff',
-                                fontSize: '0.95rem',
-                                margin: '0 0 5px 0',
-                                fontFamily: 'Arial, sans-serif'
+                                color: '#ccc',
+                                fontSize: 'clamp(0.9rem, 2.2vw, 1rem)',
+                                lineHeight: '1.5',
+                                fontFamily: 'Arial, sans-serif',
+                                margin: 0
                             }}>
-                                {t.institutionDetails}
+                                {t.studyInfoText}
                             </p>
+                        </div>
+
+                        {/* Responsible */}
+                        <div style={{ marginBottom: 'clamp(15px, 3vw, 20px)' }}>
+                            <h3 style={{
+                                color: '#fff',
+                                fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)',
+                                marginBottom: 'clamp(8px, 2vw, 10px)',
+                                fontFamily: 'Permanent Marker, cursive'
+                            }}>
+                                {t.responsible}
+                            </h3>
+                            <pre style={{
+                                color: '#ccc',
+                                fontSize: 'clamp(0.9rem, 2.2vw, 1rem)',
+                                lineHeight: '1.5',
+                                fontFamily: 'Arial, sans-serif',
+                                margin: 0,
+                                whiteSpace: 'pre-line'
+                            }}>
+                                {t.responsibleText}
+                            </pre>
+                        </div>
+
+                        {/* Data Processing */}
+                        <div style={{ marginBottom: 'clamp(15px, 3vw, 20px)' }}>
+                            <h3 style={{
+                                color: '#fff',
+                                fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)',
+                                marginBottom: 'clamp(8px, 2vw, 10px)',
+                                fontFamily: 'Permanent Marker, cursive'
+                            }}>
+                                {t.dataProcessing}
+                            </h3>
+                            {t.dataProcessingItems.map((item, index) => (
+                                <p key={index} style={{
+                                    color: '#ccc',
+                                    fontSize: 'clamp(0.85rem, 2vw, 0.95rem)',
+                                    lineHeight: '1.4',
+                                    fontFamily: 'Arial, sans-serif',
+                                    margin: 'clamp(6px, 1.5vw, 8px) 0',
+                                    paddingLeft: 'clamp(8px, 2vw, 12px)'
+                                }}>
+                                    • {item.replace('**', '').replace('**', '')}
+                                </p>
+                            ))}
+                        </div>
+
+                        {/* Rights */}
+                        <div style={{ marginBottom: 'clamp(15px, 3vw, 20px)' }}>
+                            <h3 style={{
+                                color: '#fff',
+                                fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)',
+                                marginBottom: 'clamp(8px, 2vw, 10px)',
+                                fontFamily: 'Permanent Marker, cursive'
+                            }}>
+                                {t.rightsTitle}
+                            </h3>
                             <p style={{
                                 color: '#ccc',
-                                fontSize: '0.9rem',
-                                margin: 0,
-                                fontFamily: 'Arial, sans-serif'
+                                fontSize: 'clamp(0.9rem, 2.2vw, 1rem)',
+                                lineHeight: '1.5',
+                                fontFamily: 'Arial, sans-serif',
+                                margin: 0
                             }}>
-                                {t.studyContact}
+                                {t.rightsText}
                             </p>
                         </div>
 
-                        <div style={{
-                            color: '#ccc',
-                            fontSize: '0.9rem',
-                            fontFamily: 'Arial, sans-serif',
-                            lineHeight: '1.4'
-                        }}>
-                            <p style={{ margin: '10px 0' }}>• {t.purpose}</p>
-                            <p style={{ margin: '10px 0' }}>• {t.legalBasis}</p>
-                            <p style={{ margin: '10px 0' }}>• {t.dataRetention}</p>
-                            <p style={{ margin: '10px 0' }}>• {t.rights}</p>
-                            <p style={{ margin: '10px 0' }}>• {t.thirdParties}</p>
-                        </div>
-
-                        <div style={{
-                            background: '#2d2d2d',
-                            padding: '15px',
-                            borderRadius: '8px',
-                            marginTop: '15px',
-                            border: '1px solid #444'
-                        }}>
-                            <p style={{
-                                color: '#4CAF50',
-                                fontSize: '0.95rem',
-                                margin: 0,
-                                fontFamily: 'Arial, sans-serif',
-                                fontWeight: 'bold'
+                        {/* Voluntary */}
+                        <div>
+                            <h3 style={{
+                                color: '#fff',
+                                fontSize: 'clamp(1.1rem, 2.8vw, 1.3rem)',
+                                marginBottom: 'clamp(8px, 2vw, 10px)',
+                                fontFamily: 'Permanent Marker, cursive'
                             }}>
-                                {t.withdrawal}
+                                {t.voluntaryTitle}
+                            </h3>
+                            <p style={{
+                                color: '#ccc',
+                                fontSize: 'clamp(0.9rem, 2.2vw, 1rem)',
+                                lineHeight: '1.5',
+                                fontFamily: 'Arial, sans-serif',
+                                margin: 0
+                            }}>
+                                {t.voluntaryText}
                             </p>
                         </div>
                     </div>
 
-                    {/* Consent Section */}
-                    <h2 style={{ ...labelStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', marginTop: 'clamp(25px, 5vw, 40px)', marginBottom: 'clamp(15px, 3vw, 20px)' }}>
-                        {t.consentSection}
-                    </h2>
-
+                    {/* Consent Checkboxes */}
                     <div style={checkboxStyle}>
                         <input
                             type="checkbox"
@@ -714,7 +759,7 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                             checked={formData.consentParticipation}
                             onChange={(e) => handleInputChange('consentParticipation', e.target.checked)}
                         />
-                        <span style={textStyle}>{t.consentParticipation}</span>
+                        <span style={{...textStyle, fontWeight: 'normal'}}>{t.consentParticipation}</span>
                     </div>
 
                     <div style={checkboxStyle}>
@@ -724,19 +769,42 @@ export function PreStudyForm({ onComplete, lang = 'de' }) {
                             checked={formData.consentDataProcessing}
                             onChange={(e) => handleInputChange('consentDataProcessing', e.target.checked)}
                         />
-                        <span style={textStyle}>{t.consentDataProcessing}</span>
+                        <span style={{...textStyle, fontWeight: 'bold', color: '#4CAF50'}}>{t.consentDataProcessing}</span>
                     </div>
 
                     <div style={checkboxStyle}>
                         <input
                             type="checkbox"
                             style={checkboxInputStyle}
-                            checked={formData.consentContact}
-                            onChange={(e) => handleInputChange('consentContact', e.target.checked)}
+                            checked={formData.consentResultsContact}
+                            onChange={(e) => handleInputChange('consentResultsContact', e.target.checked)}
                         />
-                        <span style={textStyle}>{t.consentContact}</span>
+                        <span style={{...textStyle, fontWeight: 'normal'}}>{t.consentResultsContact}</span>
                     </div>
 
+                    {/* Email field - only show if results contact is checked */}
+                    {formData.consentResultsContact && (
+                        <div style={fieldStyle}>
+                            <label style={labelStyle}>{t.email}</label>
+                            <input
+                                type="email"
+                                style={{...inputStyle, ...(errors.email ? {border: '2px solid #ff6b6b'} : {})}}
+                                value={formData.email}
+                                onChange={(e) => handleInputChange('email', e.target.value)}
+                                placeholder="ihre.email@example.com"
+                            />
+                            <p style={{
+                                color: '#999',
+                                fontSize: 'clamp(0.8rem, 1.8vw, 0.85rem)',
+                                fontStyle: 'italic',
+                                margin: 'clamp(4px, 1vw, 6px) 0 0 0',
+                                fontFamily: 'Arial, sans-serif'
+                            }}>
+                                {t.emailNote}
+                            </p>
+                            {errors.email && <div style={errorStyle}>{errors.email}</div>}
+                        </div>
+                    )}
 
                     {errors.consent && <div style={errorStyle}>{errors.consent}</div>}
 
